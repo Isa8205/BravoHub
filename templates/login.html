@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bravo-login</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <!-- <script src="../static/js/script.js"></script> -->
+  <script>
+
+function showpass() {
+    var a = document.getElementById("pass");
+    var b = document.getElementById("show")
+    if (a.type === "password") {
+      a.type = "text";
+      b.src = '../static/images/icons/hide.png'
+    } else {
+      a.type = "password";
+      b.src = '../static/images/icons/show.png'
+    }
+  }
+
+  </script>
+
+</head>
+<body>
+  
+<div class="row-forms">
+
+  <div class="container">
+
+    <form action="/home" method="post">
+      <h2>Login</h2>
+      <p>Enter your login details below</p>
+
+      <label for="">Username</label>
+      <input type="text" name="username" id="" class="form-input" placeholder="Enter your username " required>
+
+      <label for="">Password</label>
+      <div class="show-pass">
+        <input type="password" id="pass" name="password" class="form-input" placeholder="Enter your password" required>        
+        <button type="button" class="show" onclick="showpass()"><img id="show" src="../static/images/icons/show.png" alt="" height="25"></button>
+      </div>
+      
+      <input type="submit" value="Login" class="btn btn-blue">
+      <p>Don't have an account?<a href="/signup">Sign up</a></p>
+    </form>
+
+  </div>
+
+</div>
+
+</body>
+</html>
