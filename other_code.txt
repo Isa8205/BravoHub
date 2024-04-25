@@ -1,0 +1,3 @@
+SELECT u.full_name, u.email, p.profile_pic
+FROM users u
+JOIN profile_pics p ON u.username = p.username;

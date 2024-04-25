@@ -1,38 +1,74 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="../css/grid.css">
-  <link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload with Cropper.js</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
 </head>
 <body>
-  <div>
-    <div class="col-3">
-
-      <div class="container">
-
-        <h4>My Profile</h4>
-        <div class="profile"></div>
-      </div>
-
+    <h2>Upload and Crop Image</h2>
+    <input type="file" id="inputImage" accept="image/*">
+    <br><br>
+    <div>
+        <button id="cropButton" style="display: none;">Crop Image</button>
+    </div>
+    <br>
+    <div>
+        <img id="preview" src="#" alt="Preview" style="max-width: 300px; max-height: 300px; display: none;">
+    </div>
+    <br>
+    <div>
+        <canvas id="croppedImageCanvas" style="max-width: 100%; display: none;"></canvas>
     </div>
 
-    <div class="col-6">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+    <script>
+        var cropper;
 
-      <div class="container">
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, cumque? Fuga perferendis voluptatum reiciendis adipisci in officiis animi corporis rerum consequatur. Commodi enim soluta optio nostrum blanditiis eos, voluptatum dolores libero quam aperiam vitae eaque debitis labore perferendis, assumenda reiciendis ipsum laboriosam mollitia fugit officiis fugiat nam nisi animi fuga! Tenetur exercitationem in dolorum perspiciatis eum vitae, consectetur sunt. Nemo aut quam aperiam recusandae inventore, ad accusantium animi cupiditate laborum eius libero cum repellendus minima? Numquam saepe commodi, voluptatum similique quas eaque accusamus nihil eius nulla provident sint voluptatibus nobis fuga delectus illum ab labore, officiis quibusdam veritatis! Maxime, architecto.</p>
-      </div>
-    </div>
+        document.getElementById('inputImage').addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var dataUrl = event.target.result;
+                var image = new Image();
+                image.onload = function() {
+                    if (image.width !== image.height) {
+                        // Image is not square, enable cropping
+                        document.getElementById('cropButton').style.display = 'block';
+                        document.getElementById('preview').style.display = 'block';
+                        document.getElementById('preview').src = dataUrl;
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                        cropper = new Cropper(image, {
+                            aspectRatio: 1, // Square aspect ratio
+                            viewMode: 2, // Cropper mode
+                            dragMode: 'move',
+                            autoCropArea: 1,
+                            cropBoxResizable: false
+                        });
+                    } else {
+                        // Image is already square, disable cropping
+                        document.getElementById('cropButton').style.display = 'none';
+                        document.getElementById('preview').style.display = 'block';
+                        document.getElementById('preview').src = dataUrl;
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                    }
+                };
+                image.src = dataUrl;
+            };
+            reader.readAsDataURL(file);
+        });
 
-    <div class="col-3">
-      
-      <div class="continer">
-        <h4>For You</h4>
-        <i>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, vel doloribus! Dolorum distinctio facere repudiandae quas tempora, eos amet voluptatum voluptate impedit alias commodi possimus totam soluta ipsum tempore vel.</i>
-      </div>
-    </div>
-  </div>
+        document.getElementById('cropButton').addEventListener('click', function () {
+            var croppedCanvas = cropper.getCroppedCanvas();
+            var croppedImage = croppedCanvas.toDataURL('image/jpeg');
+            // You can use croppedImage for further processing or uploading
+            alert('Image cropped successfully.');
+        });
+    </script>
 </body>
-</html>
+</html> -->

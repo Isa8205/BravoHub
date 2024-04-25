@@ -1,29 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bravo-signup</title>
-  <link rel="stylesheet" href="../static/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bravo-signup</title>
+<link rel="stylesheet" href="../static/css/style.css">
 
-  <script>
+<script>
 
 function showpass() {
-    var a = document.getElementById("pass");
-    var b = document.getElementById("show");
-    var c = document.getElementById("pass2");
-    if (a.type === "password") {
-      a.type = "text";
-      b.src = '../static/images/icons/hide.png'
-      c.type ="text"
-    } else {
-      a.type = "password";
-      b.src = '../static/images/icons/show.png'
-      c.type = "password"
-    }
+  var a = document.getElementById("pass");
+  var b = document.getElementById("show");
+  var c = document.getElementById("pass2");
+  if (a.type === "password") {
+    a.type = "text";
+    b.src = '../static/images/icons/hide.png'
+    c.type ="text"
+  } else {
+    a.type = "password";
+    b.src = '../static/images/icons/show.png'
+    c.type = "password"
   }
+}
 
-  </script>
+
+function previewImage(event) {
+    var input = event.target;
+    var preview = document.getElementById('preview');
+    preview.style.display = "block";
+    var reader = new FileReader();
+    reader.onload = function() {
+        preview.src = reader.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+}
+</script>
+
+<style>
+
+#profile {
+        display: none;
+    }
+
+    .upload-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .upload-btn:hover {
+        background-color: #45a049;
+    }
+
+    #preview {
+        max-width: 100%;
+        max-height: 150px;
+        margin-top: 10px;
+        border-radius: 50%; /* Round the preview image */
+        display: none;
+    }
+
+    .preview {
+      display: grid;
+      justify-content: center;
+    }
+</style>
+
 </head>
 <body>
 
@@ -34,6 +80,10 @@ function showpass() {
     <form action="" method="post" enctype="multipart/form-data">
       <h2>Sign up</h2>
       <p>Enter your details to join the community</p>
+      <div class="preview">
+        <img id="preview" src="#" alt="Preview">
+      </div>
+      
       <p>{{success}}</p>
 
       <label for="">Full name &ast;</label>
@@ -58,8 +108,8 @@ function showpass() {
       <label for="">Profile picture &nbsp; </label>
       <i style="color: orangered;">&ast; Ensure the image is cropped to a square</i>
 
-      <input type="file" name="profile" id="" style="display: block;">
-      <input type="submit" value="Sign Up" class="btn btn-blue">
+      <input type="file" id="profile" name="profile" accept="image/*" onchange="previewImage(event)">
+      <button type="button" style="display: block;" class="upload-btn" onclick="document.getElementById('profile').click()">Choose File</button>     
 
       <p>Already have an account?<a href="/login">Login</a></p>
       

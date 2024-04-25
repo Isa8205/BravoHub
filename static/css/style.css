@@ -209,3 +209,41 @@ form a {
     }
     
 }
+
+/* The styles for the footer of the main body */
+footer {
+    background-color: #343a40;
+    margin-inline: -7px;
+    padding-top: 2px;
+    background-color: #343a40;
+    margin-inline: -7px;
+    padding-top: 2px;
+    border-radius: 15px 15px 0 0; 
+}
+
+footer h4 {
+    font-size: 25px;
+    margin-block: 5px;
+    
+}
+
+footer textarea {
+    display: block;
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    color: black;
+    padding-inline-start: 5px;
+    margin-block: 5px;
+}
+
+@media screen and (min-width: 650px) {
+    footer {
+        display: flex;
+        align-items: start;
+        gap: 0; 
+           
+    }
+    
+}
