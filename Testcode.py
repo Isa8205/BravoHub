@@ -202,40 +202,41 @@ def signup():
         profile = request.files['profile']
         print("Profile filename:", profile.filename)  # Debugging: Print uploaded profile picture filename
 
-        # Input validation
-        if len(password1) != 8:
-            return render_template('signup.html', errorpass="Passwords must be 8 characters long")
-        elif password1 != password2:
-            return render_template('signup.html', errorpass="Passwords must match")
-        elif not profile.filename:
-            return render_template('signup.html', errorpass="Profile picture is required")
-        elif not is_square_image(profile):
-            return render_template('signup.html', errorimg="Profile picture must be square")
-        else:
-            try:
-                # Establishing a connection with the database
-                print("Connecting to database")  # Debugging: Print statement to check database connection
-                connection = pymysql.connect(
-                    host='localhost', user='root', password='', database="BravoHub"
-                )
-                cursor = connection.cursor()
+        # # Input validation
+        # if len(password1) != 8:
+        #     return render_template('signup.html', errorpass="Passwords must be 8 characters long")
+        # elif password1 != password2:
+        #     return render_template('signup.html', errorpass="Passwords must match")
+        # elif not profile.filename:
+        #     return render_template('signup.html', errorpass="Profile picture is required")
+        # elif not is_square_image(profile):
+        #     return render_template('signup.html', errorimg="Profile picture must be square")
+        # else:
+        try:
+            # Establishing a connection with the database
+            print("Connecting to database")  # Debugging: Print statement to check database connection
+            connection = pymysql.connect(
+                host='localhost', user='root', password='', database="bravohub"
+            )
+            cursor = connection.cursor()
 
-                # Insert user data into the database
-                sql = '''INSERT INTO `users`(`Full_name`, `Username`, `email`, `profile`) 
-                         VALUES (%s, %s, %s, %s)'''
-                data = (full_name, username, email, profile.filename)
-                print("SQL Query:", sql % data)  # Debugging: Print SQL query before execution
-                cursor.execute(sql, data)
-                connection.commit()  # Commit the transaction
+            # Insert user data into the database
+            sql = '''INSERT INTO `users`(`Full_name`, `Username`, `email`, `profile`) 
+                        VALUES (%s, %s, %s, %s)'''
+            data = (full_name, username, email, profile.filename)
+            print("SQL Query:", sql % data)  # Debugging: Print SQL query before execution
+            cursor.execute(sql, data)
+            connection.commit()  # Commit the transaction
 
-                # Save profile picture
-                profile.save('static/profiles')
-                connection.close()
+            # Save profile picture
+            profile.save('static/profiles')
+            print("Image has been saved")
+            connection.close()
 
-                return render_template('signup.html', message="Signup successful. Proceed to login.")
-            except Exception as e:
-                print("Exception:", str(e))  # Log exception for debugging
-                return render_template('signup.html', message="Signup failed. Please check your details and try again.")
+            return render_template('signup.html', message="Signup successful. Proceed to login.")
+        except Exception as e:
+            print("Exception:", str(e))  # Log exception for debugging
+            return render_template('signup.html', message="Signup failed. Please check your details and try again.")
 
     else:
         return render_template('signup.html')

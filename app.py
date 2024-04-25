@@ -28,13 +28,14 @@ def signup():
         elif not profile.filename:
             return render_template('signup.html', errorpass="Profile picture is required")
         elif not is_square_image(profile):
-            return render_template('signup.html', errorpass="Profile picture must be square")
+            return render_template('signup.html', errorimg="Profile picture must be square")
         else:
             try:
                 # Establishing a connection with the database
                 connection = pymysql.connect(
-                    host='localhost', user='root', password='', database="BravoHub"
+                    host='localhost', user='root', password='', database="bravoHub"
                 )
+                print("Conneccted to the database")
                 cursor = connection.cursor()
 
                 # Insert user data into the database
@@ -42,9 +43,11 @@ def signup():
                          VALUES (%s, %s, %s, %s)'''
                 cursor.execute(sql, (full_name, username, email, profile.filename))
                 connection.commit()  # Commit the transaction
+                print("The changes have been made to the database")
 
                 # Save profile picture
-                profile.save('static/profiles')
+                profile.save('static/images/profiles')
+                print("The picture is saved")
                 connection.close()
 
                 return render_template('signup.html', message="Signup successful. Proceed to login.")
