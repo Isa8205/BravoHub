@@ -9,6 +9,27 @@
     <link rel="stylesheet" href="../static/css/navbar.css">
     <link rel="stylesheet" href="../static/css/grid.css">
     <script src="../static/js/script.js"></script>
+
+    <script>
+        // Function to scroll to the top of the page
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    
+        // Show the back-to-top button when user scrolls down
+        window.onscroll = function() {scrollFunction()};
+    
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.querySelector('.back-to-top').style.display = "block";
+            } else {
+                document.querySelector('.back-to-top').style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -38,7 +59,7 @@
     <!-- End of the navbar -->
 
     <!-- The grid that holds the elements of the body -->
-    <div class="row">
+    <div class="row" style="padding-bottom: 1000px;">
 
         <!-- The div to hold the first column -->
         <div class="col-3">
@@ -104,10 +125,11 @@
             </div> 
 
         </div>
-        <!-- End of the third column -->   
-
+        <!-- End of the third column --> 
+        
 
     </div>
+    <a href="#" class="back-to-top btn" onclick="scrollToTop()">^</a>
     <!-- End of the grid -->
 
     <!-- Start of the footer -->

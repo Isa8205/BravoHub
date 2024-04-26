@@ -212,13 +212,10 @@ form a {
 
 /* The styles for the footer of the main body */
 footer {
-    background-color: #343a40;
+    background-color: rgb(0, 113, 248);
     margin-inline: -7px;
     padding-top: 2px;
-    background-color: #343a40;
-    margin-inline: -7px;
-    padding-top: 2px;
-    border-radius: 15px 15px 0 0; 
+    border-radius: 20px 20px 0 0;
 }
 
 footer h4 {
