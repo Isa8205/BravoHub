@@ -84,7 +84,7 @@ function previewImage(event) {
         <img id="preview" src="#" alt="Preview">
       </div>
       
-      <p>{{success}}</p>
+      <p>{{message}}</p>
 
       <label for="">Full name &ast;</label>
       <input type="text" name="full_name" id="" class="form-input" placeholder="Enter your full name" required>
@@ -95,6 +95,7 @@ function previewImage(event) {
       <label for="">Email &ast;</label>
       <input type="email" name="email" id="" class="form-input" placeholder="Enter your email" required>
 
+      {{errorpass}}
       <label for="">Password</label>
       <div class="show-pass">
         <input type="password" id="pass" name="password1" class="form-input" placeholder="Enter your password" required>        
@@ -104,7 +105,6 @@ function previewImage(event) {
       <label for="">Confirm Password</label>
       <input type="password" name="password2" id="pass2" class="form-input" placeholder="Enter your password to confirm">
 
-      <p>{{errorimg}}</p>
       <label for="">Profile picture &nbsp; </label>
       <i style="color: orangered;">&ast; Ensure the image is cropped to a square</i>
 

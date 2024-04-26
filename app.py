@@ -1,14 +1,7 @@
-from PIL import Image
 from flask import *
 import pymysql
-from functions import *
 
 app = Flask(__name__)
-
-def is_square_image(file):
-    img = Image.open(file)
-    width, height = img.size
-    return width == height
 
 @app.route('/', methods=['POST', 'GET'])
 def signup():
@@ -21,33 +14,31 @@ def signup():
         profile = request.files['profile']
 
         # Input validation
-        if len(password1) != 8:
+        if len(password1) <= 8:
             return render_template('signup.html', errorpass="Passwords must be 8 characters long")
         elif password1 != password2:
             return render_template('signup.html', errorpass="Passwords must match")
-        elif not profile.filename:
-            return render_template('signup.html', errorpass="Profile picture is required")
-        elif not is_square_image(profile):
-            return render_template('signup.html', errorimg="Profile picture must be square")
         else:
             try:
                 # Establishing a connection with the database
                 connection = pymysql.connect(
-                    host='localhost', user='root', password='', database="bravoHub"
+                    host='localhost', user='root', password='', database="BravoHub"
                 )
                 print("Conneccted to the database")
                 cursor = connection.cursor()
 
                 # Insert user data into the database
-                sql = '''INSERT INTO `users`(`Full_name`, `Username`, `email`, `profile`) 
-                         VALUES (%s, %s, %s, %s)'''
-                cursor.execute(sql, (full_name, username, email, profile.filename))
+                data = (full_name, username, email, password1, profile.filename)
+                sql = '''INSERT INTO `users`(`full_name`, `username`, `email`, `password`, `profile`) 
+                         VALUES (%s, %s, %s, %s, %s)'''
+                cursor.execute(sql, data)
+                
                 connection.commit()  # Commit the transaction
                 print("The changes have been made to the database")
 
                 # Save profile picture
-                profile.save('static/images/profiles')
-                print("The picture is saved")
+                profile.save('static/profiles' + profile.filename)
+                
                 connection.close()
 
                 return render_template('signup.html', message="Signup successful. Proceed to login.")
@@ -58,9 +49,26 @@ def signup():
     else:
         return render_template('signup.html')
   
-@app.route('/login')
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
-  return render_template('login.html')
+    if request.method == 'POST':
+        username=request.form['username']
+        password=request.form['password']
+        connection=pymysql.connect(
+            host='localhost', user='root', password='',database='BravoHub'
+            )
+        data = (username,password)
+        sql='''SELECT `username`, `password` FROM `users` WHERE `username`=%s AND `password`=%s'''
+        cursor=connection.cursor()
+        cursor.execute(sql, data)
+        print("SQL Query:", sql % data)
+        if cursor.rowcount == 0:
+            return render_template('login.html', error='Invalid Credentials')
+        else:
+            session['key']=username
+            return redirect('/')
+    else:
+        return render_template('login.html')
 
 if (__name__) == ("__main__"):
   app.run(debug=True)

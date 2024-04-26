@@ -65,18 +65,55 @@
         <div class="col-3">
 
             <div class="container">
+                {% if session['username'] %}
+                    <h4>My Profile</h4>
+                    <div class="profile">
+                        <img src="{{ session['profile'] }}" alt="Profile picture" height="150">
+                    </div>
+                    <hr>
+                    <div class="details">
+                        <p>{{ session['username'] }}</p>
+                        <p>Member</p>
+                    </div>
+                {% else %}
+                    <h4>My Profile</h4>
+                    <div class="profile">
+                       <img src="../static/images/avatar3.png" alt="" height="150">
+                    </div>
+                    <hr>
+                    <div class="details">
+                        <p>Guest</p>
+                        <p>Please log in to view your profile</p>
+                        <a href="/login"><button class="btn btn-red">Login</button></a>
+                        <a href="/signup"><button class="btn btn-blue">Sign up</button></a>
+                    </div>
+                {% endif %}
+            </div>
             
+
+            <!-- <div class="container">
+                {% if session['username'] %}            
                 <h4>My profile</h4>
                 <div class="profile">
-                    <img src="../static/images/avatar6.png" alt="Profile picture" height="150">
+                    <img src="{{Profile}}" alt="Profile picture" height="150">
                 </div>
                 <hr>
                 <div class="details">
-                    <p>John Mumo</p>
+                    <p>{{Username}}</p>
                     <p>Member</p>
                 </div>
+                {% else %}
+                <h4>My profile</h4>
+                <div class="profile">
+                    <img src="{{Profile}}" alt="Profile picture" height="150">
+                </div>
+                <hr>
+                <div class="details">
+                    <p>{{Username}}</p>
+                    <p>Member</p>
+                {% endif %}
                
-            </div>    
+            </div>     -->
                 
 
         </div>
@@ -129,7 +166,7 @@
         
 
     </div>
-    <a href="#" class="back-to-top btn" onclick="scrollToTop()">^</a>
+    <a href="#" class="back-to-top" onclick="scrollToTop()"><img src="../static/images/icons/arrow-up.png" alt="" height="30px"></a>
     <!-- End of the grid -->
 
     <!-- Start of the footer -->
