@@ -216,7 +216,7 @@ def signup():
             # Establishing a connection with the database
             print("Connecting to database")  # Debugging: Print statement to check database connection
             connection = pymysql.connect(
-                host='localhost', user='root', password='', database="bravohub"
+                host='localhost', user='root', password='', database="BravoHub"
             )
             cursor = connection.cursor()
 
