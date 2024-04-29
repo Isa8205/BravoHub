@@ -64,7 +64,7 @@ def fashion():
     connection.close()
     return render_template('index.html',  page_data=page_data)
 
-@app.route('/business')
+@app.route('/politics')
 def business():
     connection = pymysql.connect(
         host='localhost', user='root', password='', database='quarkblog'
@@ -72,7 +72,7 @@ def business():
     cursor = connection.cursor()
     
     # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE a.genre = "Business" '''
+    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE a.genre = "Politics" '''
     cursor.execute(sql)
     page_data = cursor.fetchall()
     
@@ -240,7 +240,20 @@ def upload():
     
 @app.route('/account')
 def account():
-    return render_template('account.html')
+    connection = pymysql.connect(
+        host='localhost', user='root', password='', database='quarkblog'
+    )
+    cursor = connection.cursor()
+    username = session['username']
+    
+    # The sql query itself
+    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE u.username = %s '''
+    cursor.execute(sql, (username))
+    page_data = cursor.fetchall()
+    print(page_data)
+    
+    connection.close()
+    return render_template('account.html',  page_data=page_data)
     
 @app.route('/logout')
 def logout():

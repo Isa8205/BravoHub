@@ -29,19 +29,22 @@
                 document.querySelector('.back-to-top').style.display = "none";
             }
         }
-        // Wait for the DOM content to load before executing JavaScript
-        document.addEventListener("DOMContentLoaded", function() {
-            var dateElement = document.getElementById("date");
-            var dateValue = dateElement.textContent.trim();
 
+        document.addEventListener("DOMContentLoaded", function() {
+        // Get all elements with the class "date"
+        var dateElements = document.querySelectorAll(".date");
+
+        // Loop through each date element
+        dateElements.forEach(function(dateElement) {
+            var dateValue = dateElement.textContent.trim();
             var parts = dateValue.split('-');
+
             if (parts.length === 3) {
                 var year = parts[0];
                 var month = parseInt(parts[1]);
                 var day = parts[2];
                 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-                // Check if month is within valid range
                 if (month >= 1 && month <= 12) {
                     var formattedDate = day + ', ' + months[month - 1] + ', ' + year;
                     dateElement.textContent = formattedDate;
@@ -52,6 +55,8 @@
                 console.error("Invalid date format:", dateValue);
             }
         });
+    });
+
     </script>
 
     <style>
@@ -70,7 +75,7 @@
         <a href="/technology">Technology</a>
         <a href="/fashion">Fashion</a>
         <a href="/sports">sports</a>
-        <a href="/business">Business</a>
+        <a href="/politics">Politics</a>
         <a href="/other">Other</a>
 
         <a href="javascript:void(0)" class="icon" onclick="myFunction()">
@@ -101,11 +106,11 @@
                         <a href="/logout"><button class="btn btn-red">Log Out</button></a>
                         <a href="/upload"><button class="btn btn-orange">Upload</button></a>
                     </div>
-                 
+                
                 {% else %}
                     <h4>My Profile</h4>
                     <div class="profile">
-                       <img src="../static/images/avatar3.png" alt="" height="150">
+                    <img src="../static/images/avatar3.png" alt="" height="150">
                     </div>
                     <hr>
                     <div class="details">
@@ -129,7 +134,7 @@
                     <img src="../static/profiles/{{ item[4] }}" alt="" height="50">
                     <div class="info">
                         <b style="display: block;">{{ item[0] }}</b>
-                        <i style="display: block;" id="date">{{ item[3] }}</i>
+                        <i style="display: block;" class="date">{{ item[3] }}</i>
                     </div>
                     
                 </div>
@@ -137,14 +142,7 @@
                     <h3 style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{ item[2] }}</h3>
                     <p>{{ item[1] }}</p>
                 </div>
-                <!-- <div class="images">
-                    <img src="../static/images/avatar2.png" alt="image1" width="49%">
-                    <img src="../static/images/avatar3.png" alt="image2" width="49%">
-                </div>
-                <div class="reaction">
-                    <button class="btn btn-orange">Like</button>
-                    <button class="btn btn-red">Comment</button>
-                </div> -->
+                
             </div>
             {% endfor %}
 

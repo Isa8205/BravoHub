@@ -7,6 +7,37 @@
     <title>Account</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/grid.css">
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+        // Get all elements with the class "date"
+        var dateElements = document.querySelectorAll(".date");
+
+        // Loop through each date element
+        dateElements.forEach(function(dateElement) {
+            var dateValue = dateElement.textContent.trim();
+            var parts = dateValue.split('-');
+
+            if (parts.length === 3) {
+                var year = parts[0];
+                var month = parseInt(parts[1]);
+                var day = parts[2];
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                if (month >= 1 && month <= 12) {
+                    var formattedDate = day + ', ' + months[month - 1] + ', ' + year;
+                    dateElement.textContent = formattedDate;
+                } else {
+                    console.error("Invalid month:", month);
+                }
+            } else {
+                console.error("Invalid date format:", dateValue);
+            }
+        });
+    });
+    </script>
+
     <style>
 
         body::-webkit-scrollbar {
@@ -27,9 +58,31 @@
             background-color: #888;
         }
 
+        .container-mid {
+            margin-block: 10px;
+        }
+        
+        @media only screen and (min-width: 850px) {
+            .row {
+                display: grid;
+                grid-template-columns: 30vw 30vw 30vw;
+                justify-content: center;
+            }
+
+            .container-mid {
+                width: 90%;
+                height: 40vh;
+                overflow-y: hidden;
+                padding-block: 10px;
+            }
+
+       
+        }
+        
         .credentials {
             display: flex;
             position: relative;
+            height: 20vh;
         }
         .credentials img {
             border-radius: 50%;
@@ -68,7 +121,7 @@
 
         .posts {
             overflow-y: scroll;
-            height: 500px;
+            height: 90vh;
             padding: 5px;
             /*border-radius: 15px 15px 0 0;*/
             background-color: antiquewhite;
@@ -98,11 +151,13 @@
 
             <div class="profile">
                 <img src="../static/profiles/{{session['profile']}}" alt="Profile picture" height="100">
-                <a href="/logout"><button class="btn btn-red">Log out</button></a>
+                <a href="/"><button class="btn btn-blue">Home</button></a>
+                <a href="/upload"><button class="btn btn-orange">Upload</button></a>
             </div>
             <div class="names">
                 <p><b>Name: </b> {{session['full_name']}}</p>
                 <p><b>Username: </b> {{session['username']}}</p>
+                <a href="/logout"><button class="btn btn-red">Log out</button></a>
             </div>
 
         </div>
@@ -114,71 +169,23 @@
 
             <div class="row">
 
-                <div class="container-mid col-4" style="background-image: url(../static/images/business.jpg);">
+                {% for item in page_data %}
+                <div class="container-mid col-4">
                     <div class="top">
-                        <img src="../static/images/avatar5.png" alt="" height="50">
+                        <img src="../static/profiles/{{ item[4] }}" alt="" height="50">
                         <div class="info">
-                            <b style="display: block;">John Doe</b>
-                            <i style="display: block;">1 Min</i>
+                            <b style="display: block;">{{ item[0] }}</b>
+                            <i style="display: block;" class="date">{{ item[3] }}</i>
                         </div>
                         
                     </div>
                     <div class="middle">
-                        <p>Lorem ipum dolor sit amet consectetur, adipisicing elit. Earum tempore amet a provident atque, enim ipsam harum animi, hic aliquam quod corrupti ea eum laboriosam, impedit itaque perspiciatis. Quos, facilis! Nostrum similique dolores ipsam at sapiente maxime est suscipit officiis cupiditate incidunt vero tempora quisquam enim ab odit consequatur perferendis dolore magnam labore qui quidem, vitae eaque beatae libero? Ducimus perferendis molestiae corrupti dolore aliquid veritatis, minus quis earum libero, soluta laudantium voluptas? Enim illum, laudantium consequatur fugiat non recusandae commodi sapiente quasi odio nostrum minima hic! Possimus illum accusantium consequuntur, aut facere excepturi neque magni, unde incidunt, voluptate rem?</p>
+                        <h3 style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{ item[2] }}</h3>
+                        <p>{{ item[1] }}</p>
                     </div>
-                    <div class="images">
-                        <img src="../static/images/avatar2.png" alt="image1" width="49%">
-                        <img src="../static/images/avatar3.png" alt="image2" width="49%">
-                    </div>
-                    <div class="reaction">
-                        <button class="btn btn-orange">Like</button>
-                        <button class="btn btn-red">Comment</button>
-                    </div>
+
                 </div>
-    
-                <div class="container-mid col-4" style="background-image: url(../static/images/business.jpg);">
-                    <div class="top">
-                        <img src="../static/images/avatar5.png" alt="" height="50">
-                        <div class="info">
-                            <b style="display: block;">John Doe</b>
-                            <i style="display: block;">1 Min</i>
-                        </div>
-                        
-                    </div>
-                    <div class="middle">
-                        <p>Lorem ipum dolor sit amet consectetur, adipisicing elit. Earum tempore amet a provident atque, enim ipsam harum animi, hic aliquam quod corrupti ea eum laboriosam, impedit itaque perspiciatis. Quos, facilis! Nostrum similique dolores ipsam at sapiente maxime est suscipit officiis cupiditate incidunt vero tempora quisquam enim ab odit consequatur perferendis dolore magnam labore qui quidem, vitae eaque beatae libero? Ducimus perferendis molestiae corrupti dolore aliquid veritatis, minus quis earum libero, soluta laudantium voluptas? Enim illum, laudantium consequatur fugiat non recusandae commodi sapiente quasi odio nostrum minima hic! Possimus illum accusantium consequuntur, aut facere excepturi neque magni, unde incidunt, voluptate rem?</p>
-                    </div>
-                    <div class="images">
-                        <img src="../static/images/avatar2.png" alt="image1" width="49%">
-                        <img src="../static/images/avatar3.png" alt="image2" width="49%">
-                    </div>
-                    <div class="reaction">
-                        <button class="btn btn-orange">Like</button>
-                        <button class="btn btn-red">Comment</button>
-                    </div>
-                </div>
-    
-                <div class="container-mid col-4" style="background-image: url(../static/images/business.jpg);">
-                    <div class="top">
-                        <img src="../static/images/avatar5.png" alt="" height="50">
-                        <div class="info">
-                            <b style="display: block;">John Doe</b>
-                            <i style="display: block;">1 Min</i>
-                        </div>
-                        
-                    </div>
-                    <div class="middle">
-                        <p>Lorem ipum dolor sit amet consectetur, adipisicing elit. Earum tempore amet a provident atque, enim ipsam harum animi, hic aliquam quod corrupti ea eum laboriosam, impedit itaque perspiciatis. Quos, facilis! Nostrum similique dolores ipsam at sapiente maxime est suscipit officiis cupiditate incidunt vero tempora quisquam enim ab odit consequatur perferendis dolore magnam labore qui quidem, vitae eaque beatae libero? Ducimus perferendis molestiae corrupti dolore aliquid veritatis, minus quis earum libero, soluta laudantium voluptas? Enim illum, laudantium consequatur fugiat non recusandae commodi sapiente quasi odio nostrum minima hic! Possimus illum accusantium consequuntur, aut facere excepturi neque magni, unde incidunt, voluptate rem?</p>
-                    </div>
-                    <div class="images">
-                        <img src="../static/images/avatar2.png" alt="image1" width="49%">
-                        <img src="../static/images/avatar3.png" alt="image2" width="49%">
-                    </div>
-                    <div class="reaction">
-                        <button class="btn btn-orange">Like</button>
-                        <button class="btn btn-red">Comment</button>
-                    </div>
-                </div>
+                {% endfor %}
 
             </div>
 
