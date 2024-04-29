@@ -1,3 +1,8 @@
+/* 
+---------------------------------------------------------------------
+    Global styles
+---------------------------------------------------------------------
+*/
 html{
     -ms-text-size-adjust: auto;
     -webkit-text-size-adjust: auto;
@@ -17,9 +22,14 @@ p {
 
 body {
     font-family: sans-serif;
-    background-color: #adb5bd;
+    background-color: #4e5e6d;
     font-family: 15px;
 }
+/* 
+----------------------------------------------------------------------------------------
+Styles for the part with the conent
+----------------------------------------------------------------------------------------
+ */
 
 hr{
     border:0;
@@ -31,7 +41,7 @@ hr{
 .container {
     display: flex;
     flex-direction: column;
-    background-color: #f2f2f2;
+    background-color: #d8cccc;
     border-radius: 5px;
     padding: .01em 16px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
@@ -44,12 +54,15 @@ hr{
 
 .container-mid {
     padding: .01em 16px;
-    background-color: #f2f2f2;
-    border-radius: 5px;
+    /* background-image: url(../images/3357683.jpg); */
+    background-color: #e7e7e7;
+    border-radius: 10px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
     word-wrap: break-word;
     top: 0;
     font-style: oblique; 
+    backdrop-filter: .3;
+    margin-block-end: 10px;
 }
 
 .container-mid .top {
@@ -169,7 +182,6 @@ hr{
     border-radius: 5px;
     border: 1px solid #ffffff;
     color: black;
-    padding-inline-start: 3px;
     margin-block: 5px;
 
 }
@@ -210,7 +222,11 @@ form a {
     
 }
 
-/* The styles for the footer of the main body */
+/*
+------------------------------------------------------------------------------------------------------
+The styles for the footer of the main body 
+------------------------------------------------------------------------------------------------------
+*/
 footer {
     background-color: rgb(0, 113, 248);
     margin-inline: -7px;

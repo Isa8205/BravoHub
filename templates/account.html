@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/grid.css">
+    <style>
+
+        body::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+            
+        body::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar handle */
+            border-radius: 5px; /* Rounded corners of the scrollbar handle */
+        }
+            
+        body::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Color of the scrollbar handle when hovered */
+        }
+
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #888;
+        }
+
+        .credentials {
+            display: flex;
+            position: relative;
+        }
+        .credentials img {
+            border-radius: 50%;
+            display: block;
+        }
+
+        .credentials .names {
+            flex: 1;
+            display: inline-block;
+            position: absolute;
+            right: 10px;
+            top: 20px;
+            text-align: start;
+        }
+
+        .credentials p {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            --btn-background: #c43434;
+            --btn-text-color: #fff;
+            background-color: var(--btn-background);
+            color: var(--btn-text-color);
+            padding-block: 10px;
+            padding-inline: 20px;
+            border-radius: 5px;
+            font-size: 100%;
+            font-weight: 545;
+            margin-inline: 5px;
+            margin-block: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .posts {
+            overflow-y: scroll;
+            height: 500px;
+            padding: 5px;
+            /*border-radius: 15px 15px 0 0;*/
+            background-color: antiquewhite;
+        }
+
+        .posts::-webkit-scrollbar {
+            width: 8px;
+            padding-inline: 3px;
+        }
+
+        .posts::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: #dfd8d8;
+        }
+
+        .posts::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+          
+    </style>
+</head>
+<body>
+
+    <div class="body">
+
+        <div class="credentials">
+
+            <div class="profile">
+                <img src="../static/profiles/{{session['profile']}}" alt="Profile picture" height="100">
+                <a href="/logout"><button class="btn btn-red">Log out</button></a>
+            </div>
+            <div class="names">
+                <p><b>Name: </b> {{session['full_name']}}</p>
+                <p><b>Username: </b> {{session['username']}}</p>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h3>Your posts</h3>
+        <div class="posts">
+
+            <div class="row">
+
+                <div class="container-mid col-4" style="background-image: url(../static/images/business.jpg);">
+                    <div class="top">
+                        <img src="../static/images/avatar5.png" alt="" height="50">
+                        <div class="info">
+                            <b style="display: block;">John Doe</b>
+                            <i style="display: block;">1 Min</i>
+                        </div>
+                        
+                    </div>
+                    <div class="middle">
+                        <p>Lorem ipum dolor sit amet consectetur, adipisicing elit. Earum tempore amet a provident atque, enim ipsam harum animi, hic aliquam quod corrupti ea eum laboriosam, impedit itaque perspiciatis. Quos, facilis! Nostrum similique dolores ipsam at sapiente maxime est suscipit officiis cupiditate incidunt vero tempora quisquam enim ab odit consequatur perferendis dolore magnam labore qui quidem, vitae eaque beatae libero? Ducimus perferendis molestiae corrupti dolore aliquid veritatis, minus quis earum libero, soluta laudantium voluptas? Enim illum, laudantium consequatur fugiat non recusandae commodi sapiente quasi odio nostrum minima hic! Possimus illum accusantium consequuntur, aut facere excepturi neque magni, unde incidunt, voluptate rem?</p>
+                    </div>
+                    <div class="images">
+                        <img src="../static/images/avatar2.png" alt="image1" width="49%">
+                        <img src="../static/images/avatar3.png" alt="image2" width="49%">
+                    </div>
+                    <div class="reaction">
+                        <button class="btn btn-orange">Like</button>
+                        <button class="btn btn-red">Comment</button>
+                    </div>
+                </div>
+    
+                <div class="container-mid col-4" style="background-image: url(../static/images/business.jpg);">
+                    <div class="top">
+                        <img src="../static/images/avatar5.png" alt="" height="50">
+                        <div class="info">
+                            <b style="display: block;">John Doe</b>
+                            <i style="display: block;">1 Min</i>
+                        </div>
+                        
+                    </div>
+                    <div class="middle">
+                        <p>Lorem ipum dolor sit amet consectetur, adipisicing elit. Earum tempore amet a provident atque, enim ipsam harum animi, hic aliquam quod corrupti ea eum laboriosam, impedit itaque perspiciatis. Quos, facilis! Nostrum similique dolores ipsam at sapiente maxime est suscipit officiis cupiditate incidunt vero tempora quisquam enim ab odit consequatur perferendis dolore magnam labore qui quidem, vitae eaque beatae libero? Ducimus perferendis molestiae corrupti dolore aliquid veritatis, minus quis earum libero, soluta laudantium voluptas? Enim illum, laudantium consequatur fugiat non recusandae commodi sapiente quasi odio nostrum minima hic! Possimus illum accusantium consequuntur, aut facere excepturi neque magni, unde incidunt, voluptate rem?</p>
+                    </div>
+                    <div class="images">
+                        <img src="../static/images/avatar2.png" alt="image1" width="49%">
+                        <img src="../static/images/avatar3.png" alt="image2" width="49%">
+                    </div>
+                    <div class="reaction">
+                        <button class="btn btn-orange">Like</button>
+                        <button class="btn btn-red">Comment</button>
+                    </div>
+                </div>
+    
+                <div class="container-mid col-4" style="background-image: url(../static/images/business.jpg);">
+                    <div class="top">
+                        <img src="../static/images/avatar5.png" alt="" height="50">
+                        <div class="info">
+                            <b style="display: block;">John Doe</b>
+                            <i style="display: block;">1 Min</i>
+                        </div>
+                        
+                    </div>
+                    <div class="middle">
+                        <p>Lorem ipum dolor sit amet consectetur, adipisicing elit. Earum tempore amet a provident atque, enim ipsam harum animi, hic aliquam quod corrupti ea eum laboriosam, impedit itaque perspiciatis. Quos, facilis! Nostrum similique dolores ipsam at sapiente maxime est suscipit officiis cupiditate incidunt vero tempora quisquam enim ab odit consequatur perferendis dolore magnam labore qui quidem, vitae eaque beatae libero? Ducimus perferendis molestiae corrupti dolore aliquid veritatis, minus quis earum libero, soluta laudantium voluptas? Enim illum, laudantium consequatur fugiat non recusandae commodi sapiente quasi odio nostrum minima hic! Possimus illum accusantium consequuntur, aut facere excepturi neque magni, unde incidunt, voluptate rem?</p>
+                    </div>
+                    <div class="images">
+                        <img src="../static/images/avatar2.png" alt="image1" width="49%">
+                        <img src="../static/images/avatar3.png" alt="image2" width="49%">
+                    </div>
+                    <div class="reaction">
+                        <button class="btn btn-orange">Like</button>
+                        <button class="btn btn-red">Comment</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+</body>
+</html>

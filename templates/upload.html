@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quark-Upload</title> 
+    <link rel="stylesheet" href="../static/css/grid.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <style>
+
+        form {
+            width: 100%;
+        }
+
+        form textarea {
+            display: block;
+            height: 30vh;
+            width: 98%;
+            border: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            margin-inline-end: 0;
+        }
+
+        .container {
+            display: block;
+            margin-inline: 20vw;
+            background-color: blueviolet;
+            padding-inline: 16px;
+        }
+
+        @media screen and (max-width: 815px) {
+            .container {
+                margin-inline: 10vw;
+            }
+ 
+            form textarea, input {
+                width: 80%;
+            }
+        }
+
+        @media screen and (max-width: 560px) {
+            .container {
+                margin-inline: 5vw;
+            }
+            .form-input {
+                height: 30px;
+                width: 98%;
+            
+            }
+
+            form textarea {
+                width: 98%;
+            }
+
+            .container {
+                align-items: start;
+            }
+        }
+
+    </style> 
+</head>
+<body>
+    {% if session['username'] %}
+    <div class="container">
+        <form action="" method="post">
+            {{success}}
+            {{errorupload}}
+            <label for="">Genre</label>
+            <select name="genre" id="" class="form-input">
+                <option value="Technology">Technology</option>
+                <option value="Sports">Sports</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Bussiness">Bussiness</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="Headline">Headline</label>
+            <input type="text" name="headline" id="" placeholder="Enter the headline to your article" class="form-input">
+    
+            <label for="" style=>Context</label>
+            <textarea name="context" id="" placeholder="Write something"></textarea>
+    
+            <input type="submit" value="Submit" class="btn btn-blue">
+
+        </form>  
+        
+    </div>
+          
+        {% else %}
+    <p>You have to be logged in in order to post an artical</p>
+    <a href="/login">Proceed to login</a>
+
+        {% endif %}
+</body>
+</html>

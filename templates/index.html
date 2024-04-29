@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>QuarkBlog</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/navbar.css">
     <link rel="stylesheet" href="../static/css/grid.css">
@@ -29,26 +29,50 @@
                 document.querySelector('.back-to-top').style.display = "none";
             }
         }
+        // Wait for the DOM content to load before executing JavaScript
+        document.addEventListener("DOMContentLoaded", function() {
+            var dateElement = document.getElementById("date");
+            var dateValue = dateElement.textContent.trim();
+
+            var parts = dateValue.split('-');
+            if (parts.length === 3) {
+                var year = parts[0];
+                var month = parseInt(parts[1]);
+                var day = parts[2];
+                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                // Check if month is within valid range
+                if (month >= 1 && month <= 12) {
+                    var formattedDate = day + ', ' + months[month - 1] + ', ' + year;
+                    dateElement.textContent = formattedDate;
+                } else {
+                    console.error("Invalid month:", month);
+                }
+            } else {
+                console.error("Invalid date format:", dateValue);
+            }
+        });
     </script>
+
+    <style>
+        .back-to-top {
+            position: fixed;
+            bottom: 10vh;
+        }
+    </style>
 </head>
 <body>
-
-    <!-- The logo of the website -->
-    <div class="logo">
-
-    </div>
     
     <!-- Start of the navbar -->
     <div class="topnav" id="myTopnav">
         
-        <a href="index.html" class="active">Home</a>
-        <a href="index.html">Technology</a>
-        <a href="#about">Fashion</a>
-        <a href="#help">sports</a>
-        <a href="index2.html">Other</a>
-        <a href="#help">About us</a>
-        <!-- <a href="login.html">login</a>
-        <a href="signup.html">sign up</a> -->
+        <div class="logo"><a href="/">Quark<b>Blog</b></a></div>
+        <a href="/technology">Technology</a>
+        <a href="/fashion">Fashion</a>
+        <a href="/sports">sports</a>
+        <a href="/business">Business</a>
+        <a href="/other">Other</a>
+
         <a href="javascript:void(0)" class="icon" onclick="myFunction()">
             <span></span>
             <span></span>
@@ -59,22 +83,25 @@
     <!-- End of the navbar -->
 
     <!-- The grid that holds the elements of the body -->
-    <div class="row" style="padding-bottom: 1000px;">
+    <div class="row">
 
         <!-- The div to hold the first column -->
         <div class="col-3">
 
-            <div class="container">
+            <div class="container" style="background-color: dimgrey;">
                 {% if session['username'] %}
                     <h4>My Profile</h4>
                     <div class="profile">
-                        <img src="{{ session['profile'] }}" alt="Profile picture" height="150">
+                        <a href="/account"><img src="../static/profiles/{{ session['profile'] }}" alt="Profile picture" height="150"></a>
                     </div>
                     <hr>
                     <div class="details">
                         <p>{{ session['username'] }}</p>
                         <p>Member</p>
+                        <a href="/logout"><button class="btn btn-red">Log Out</button></a>
+                        <a href="/upload"><button class="btn btn-orange">Upload</button></a>
                     </div>
+                 
                 {% else %}
                     <h4>My Profile</h4>
                     <div class="profile">
@@ -88,33 +115,7 @@
                         <a href="/signup"><button class="btn btn-blue">Sign up</button></a>
                     </div>
                 {% endif %}
-            </div>
-            
-
-            <!-- <div class="container">
-                {% if session['username'] %}            
-                <h4>My profile</h4>
-                <div class="profile">
-                    <img src="{{Profile}}" alt="Profile picture" height="150">
-                </div>
-                <hr>
-                <div class="details">
-                    <p>{{Username}}</p>
-                    <p>Member</p>
-                </div>
-                {% else %}
-                <h4>My profile</h4>
-                <div class="profile">
-                    <img src="{{Profile}}" alt="Profile picture" height="150">
-                </div>
-                <hr>
-                <div class="details">
-                    <p>{{Username}}</p>
-                    <p>Member</p>
-                {% endif %}
-               
-            </div>     -->
-                
+            </div>                
 
         </div>
         <!-- End of the first column(col-3) -->
@@ -122,27 +123,30 @@
         <!-- Start of the second column -->
         <div class="col-7">
 
+            {% for item in page_data %}
             <div class="container-mid">
                 <div class="top">
-                    <img src="../static/images/avatar5.png" alt="" height="50">
+                    <img src="../static/profiles/{{ item[4] }}" alt="" height="50">
                     <div class="info">
-                        <b style="display: block;">John Doe</b>
-                        <i style="display: block;">1 Min</i>
+                        <b style="display: block;">{{ item[0] }}</b>
+                        <i style="display: block;" id="date">{{ item[3] }}</i>
                     </div>
                     
                 </div>
                 <div class="middle">
-                    <p>Lorem ipum dolor sit amet consectetur, adipisicing elit. Earum tempore amet a provident atque, enim ipsam harum animi, hic aliquam quod corrupti ea eum laboriosam, impedit itaque perspiciatis. Quos, facilis! Nostrum similique dolores ipsam at sapiente maxime est suscipit officiis cupiditate incidunt vero tempora quisquam enim ab odit consequatur perferendis dolore magnam labore qui quidem, vitae eaque beatae libero? Ducimus perferendis molestiae corrupti dolore aliquid veritatis, minus quis earum libero, soluta laudantium voluptas? Enim illum, laudantium consequatur fugiat non recusandae commodi sapiente quasi odio nostrum minima hic! Possimus illum accusantium consequuntur, aut facere excepturi neque magni, unde incidunt, voluptate rem?</p>
+                    <h3 style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{ item[2] }}</h3>
+                    <p>{{ item[1] }}</p>
                 </div>
-                <div class="images">
+                <!-- <div class="images">
                     <img src="../static/images/avatar2.png" alt="image1" width="49%">
                     <img src="../static/images/avatar3.png" alt="image2" width="49%">
                 </div>
                 <div class="reaction">
                     <button class="btn btn-orange">Like</button>
                     <button class="btn btn-red">Comment</button>
-                </div>
+                </div> -->
             </div>
+            {% endfor %}
 
         </div>
         <!-- End of the second column(col-7) -->
@@ -151,14 +155,14 @@
         <div class="col-2">
 
             <div class="container">
-            
-                <h4>My profile</h4>
-                <div class="profile">
-                    <img src="../static/images/avatar5.png" alt="Profile picture" height="100">
-                </div>
-                <hr>
-                <p>John Mumo</p>
-                <p>Member</p>
+                
+                <h4>Coming <em>soon</em></h4>
+
+                <p>A new version of this website will soon be out. This version is just but the first prototype and I am proud to say that it has ben a success.</p>
+                <p><i><b>Life is just like a bicycle, in order to maintain balance, you have to keep moving.</b></i></p>
+                <p>&hyphen; Albert Einstein</p>
+
+                <img style="border-radius: 10px; margin-bottom:10px;" src="../static/images/sports2 (2).jpg" alt="" width="100%">
             </div> 
 
         </div>
@@ -182,7 +186,7 @@
         <div class="col-4 comments">
             <h4>Comments</h4>
             <p>We do value your feedback as it allows us to make this platform better for everyone</p>
-            <form action="#">
+            <form action="/review" method="post">
                 <label for="">Subject</label>
                 <input type="text" name="subject" id="" class="form-input" placeholder="Example: User interface">
                 <label for="">Description</label>
