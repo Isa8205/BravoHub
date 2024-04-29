@@ -243,9 +243,8 @@ footer h4 {
 footer textarea {
     display: block;
     height: 50px;
-    width: 100%;
+    width: 95%;
     border-radius: 5px;
-    border: 1px solid #ffffff;
     color: black;
     padding-inline-start: 5px;
     margin-block: 5px;
