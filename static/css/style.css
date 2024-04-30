@@ -1,3 +1,6 @@
+
+@import url(../css/fonts.css);
+
 /* 
 ---------------------------------------------------------------------
     Global styles
@@ -54,7 +57,6 @@ hr{
 
 .container-mid {
     padding: .01em 16px;
-    /* background-image: url(../images/3357683.jpg); */
     background-color: #e7e7e7;
     border-radius: 10px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
@@ -117,7 +119,7 @@ hr{
 }
 
 .btn {
-    --btn-background: #607d8b;
+    --btn-background: #1963d1;
     --btn-text-color: #fff;
     background-color: var(--btn-background);
     color: var(--btn-text-color);
@@ -133,7 +135,7 @@ hr{
 }
 
 .btn-blue {
-    --btn-background: #2f1ec9;
+    --btn-background: #1558e9;
     --btn-text-color: #ffffff;    
 }
 
@@ -178,7 +180,7 @@ hr{
 .form-input {
     display: block;
     height: 30px;
-    width: 100%;
+    width: 95%;
     border-radius: 5px;
     border: 1px solid #ffffff;
     color: black;

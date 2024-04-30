@@ -1,5 +1,4 @@
 .topnav {
-    background-image: url(../images/3357683.jpg);
     background-color: rgba(0, 0, 0, .8);
     overflow: hidden;
     padding: 5px;
@@ -27,7 +26,6 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    /* font-size: 17px; */
     margin-inline: 4px;
 }
 
@@ -61,6 +59,7 @@
 }
 
 @media screen and (max-width: 750px) {
+    .topnav {top: 10px;}
     .topnav a:not(:first-child) {display: none;}
     .topnav a.icon{
         float: right;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bravo-login</title>
+  <title>InSight-login</title>
   <link rel="stylesheet" href="../static/css/style.css">
   <!-- <script src="../static/js/script.js"></script> -->
   <script>
@@ -32,7 +32,8 @@ function showpass() {
     <form action="" method="post">
       <h2>Login</h2>
       <p>Enter your login details below</p>
-
+      
+      <p style="color: red;">{{error}}</p>
       <label for="">Username</label>
       <input type="text" name="username" id="" class="form-input" placeholder="Enter your username " required>
 
@@ -43,6 +44,7 @@ function showpass() {
       </div>
       
       <input type="submit" value="Login" class="btn btn-blue">
+      <a href="/"><button type="button" class="btn btn-blue">Home</button></a>
       <p>Don't have an account?<a href="/signup">Sign up</a></p>
     </form>
 

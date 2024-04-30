@@ -167,7 +167,7 @@ def signup():
                 return render_template('signup.html', message="Signup successful. Proceed to login.")
             except Exception as e:
                 print("Exception:", str(e))
-                return render_template('signup.html', message="Signup failed. Please check your details and try again.")
+                return render_template('signup.html', error="Signup failed. Please check your details and try again.")
             finally:
                 connection.close()
 

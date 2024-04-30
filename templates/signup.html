@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bravo-signup</title>
+<title>InSight-signup</title>
 <link rel="stylesheet" href="../static/css/style.css">
 
 <script>
@@ -84,7 +84,8 @@ function previewImage(event) {
         <img id="preview" src="#" alt="Preview">
       </div>
       
-      <p>{{message}}</p>
+      <p style="color: #45a049;">{{message}}</p>
+      <p style="color: red;">{{error}}</p>
 
       <label for="">Full name &ast;</label>
       <input type="text" name="full_name" id="" class="form-input" placeholder="Enter your full name" required>
@@ -95,7 +96,7 @@ function previewImage(event) {
       <label for="">Email &ast;</label>
       <input type="email" name="email" id="" class="form-input" placeholder="Enter your email" required>
 
-      {{errorpass}}
+      <p style="color: red;">{{errorpass}}</p>
       <label for="">Password</label>
       <div class="show-pass">
         <input type="password" id="pass" name="password1" class="form-input" placeholder="Enter your password" required>        
@@ -111,7 +112,8 @@ function previewImage(event) {
       <input type="file" id="profile" name="profile" accept="image/*" onchange="previewImage(event)">
       <button type="button" style="display: block;" class="upload-btn" onclick="document.getElementById('profile').click()">Choose File</button>
       
-      <input type="submit" value="Sign up" class="btn btn-red">
+      <input type="submit" value="Sign up" class="btn btn-blue">
+      <a href="/"><button type="button" class="btn btn-blue">Home</button></a>
 
       <p>Already have an account?<a href="/login">Login</a></p>
       
