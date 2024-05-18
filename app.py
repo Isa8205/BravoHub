@@ -4,10 +4,48 @@ import pymysql
 app = Flask(__name__)
 app.secret_key = "fjsd8sf8s9fdsaHh"
 
+# Database configuration
+db_host = "localhost"
+db_user = "root"
+db_password = ''
+db_name = "quarkblog"
+
+# The functions to be used within the application
+def check_username_availability(username):
+    try:
+        # Connect to MySQL database
+        connection = pymysql.connect(host=db_host,
+                                     user=db_user,
+                                     password=db_password,
+                                     database=db_name,
+                                     cursorclass=pymysql.cursors.DictCursor)
+        print('connected to the database')
+
+        # Check if the username exists in the database
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM users WHERE username = %s"
+            cursor.execute(sql, (username,))
+            result = cursor.fetchone()
+            
+        if result:
+            return True
+        else:
+            return False
+
+    except Exception as e:
+        print("Error:", e)
+        return False
+    
+    finally:
+        connection.close()
+#End of the fuctions
+
+ 
+# The routes to the application
 @app.route('/')
 def homepage():
     connection = pymysql.connect(
-        host='localhost', user='root', password='', database='quarkblog'
+        host=db_host, user=db_user, password=db_password, database=db_name
     )
     cursor = connection.cursor()
     
@@ -22,7 +60,7 @@ def homepage():
 @app.route('/technology')
 def technology():
     connection = pymysql.connect(
-        host='localhost', user='root', password='', database='quarkblog'
+        host=db_host, user=db_user, password=db_password, database=db_name
     )
     cursor = connection.cursor()
     
@@ -37,7 +75,7 @@ def technology():
 @app.route('/sports')
 def sports():
     connection = pymysql.connect(
-        host='localhost', user='root', password='', database='quarkblog'
+        host=db_host, user=db_user, password=db_password, database=db_name
     )
     cursor = connection.cursor()
     
@@ -52,7 +90,7 @@ def sports():
 @app.route('/fashion')
 def fashion():
     connection = pymysql.connect(
-        host='localhost', user='root', password='', database='quarkblog'
+        host=db_host, user=db_user, password=db_password, database=db_name
     )
     cursor = connection.cursor()
     
@@ -67,7 +105,7 @@ def fashion():
 @app.route('/politics')
 def business():
     connection = pymysql.connect(
-        host='localhost', user='root', password='', database='quarkblog'
+        host=db_host, user=db_user, password=db_password, database=db_name
     )
     cursor = connection.cursor()
     
@@ -82,7 +120,7 @@ def business():
 @app.route('/other')
 def other():
     connection = pymysql.connect(
-        host='localhost', user='root', password='', database='quarkblog'
+        host=db_host, user=db_user, password=db_password, database=db_name
     )
     cursor = connection.cursor()
     
@@ -102,7 +140,7 @@ def review():
         description = request.form['description']
         
         connection = pymysql.connect(
-            host='localhost', user='root', password='', database='quarkblog'
+            host=db_host, user=db_user, password=db_password, database=db_name
         )
         cursor = connection.cursor()
         
@@ -151,7 +189,7 @@ def signup():
             try:
                 # Establishing a connection with the database
                 connection = pymysql.connect(
-                    host='localhost', user='root', password='', database="quarkblog"
+                    host=db_host, user=db_user, password=db_password, database="quarkblog"
                 )
                 print("Conneccted to the database")
                 cursor = connection.cursor()
@@ -173,6 +211,14 @@ def signup():
 
     else:
         return render_template('signup.html')
+    
+@app.route('/check_username', methods=['POST'])
+def check_username():
+    username = request.json.get("username", '')
+    if check_username_availability(username):
+        return jsonify({"available": False})
+    else:
+        return jsonify({"available": True})
   
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
@@ -182,7 +228,7 @@ def login():
 
         # Establish a database connection
         connection = pymysql.connect(
-            host='localhost', user='root', password='', database='quarkblog'
+            host=db_host, user=db_user, password=db_password, database=db_name
         )
 
         try:
@@ -218,7 +264,7 @@ def upload():
         context = request.form['context']
         
         connection = pymysql.connect(
-            host='localhost', user='root', password='', database='quarkblog'
+            host=db_host, user=db_user, password=db_password, database=db_name
         )
         cursor = connection.cursor()
         
@@ -241,7 +287,7 @@ def upload():
 @app.route('/account')
 def account():
     connection = pymysql.connect(
-        host='localhost', user='root', password='', database='quarkblog'
+        host=db_host, user=db_user, password=db_password, database=db_name
     )
     cursor = connection.cursor()
     username = session['username']
@@ -259,6 +305,7 @@ def account():
 def logout():
   session.clear()
   return redirect('/')
+
 
 if (__name__) == ("__main__"):
   app.run(debug=True)

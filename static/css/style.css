@@ -3,9 +3,56 @@
 
 /* 
 ---------------------------------------------------------------------
+    Themes
+---------------------------------------------------------------------
+*/
+:root {
+    /* Light theme colors */
+    --background-color-light: #f5f7f8;
+    --text-color-light: #000000;
+    --link-color-light: #0066CC;
+    --container-color-light: #cac5c5;
+    --footer-color-light: grey;
+  
+    /* Dark theme colors */
+    --background-color-dark: #121212;
+    --text-color-dark: #FFFFFF;
+    --link-color-dark: #6ECAF2;
+    --container-color-dark: rgb(38, 41, 42);
+    --footer-color-dark: rgb(223, 18, 18);
+
+    /* The default theme */    
+    --background-color: var(--background-color-light);
+    --text-color: var(--text-color-light);
+    --link-color: var(--link-color-light);
+    --container-color: var(--container-color-light);
+    --footer-color: var(--footer-color-light);
+  
+  }
+
+  [data-theme='light'] {
+    --background-color: var(--background-color-light);
+    --text-color: var(--text-color-light);
+    --link-color: var(--link-color-light);
+    --container-color: var(--container-color-light);
+    --footer-color: var(--footer-color-light);
+  }
+  
+  /* Dark theme */
+  [data-theme='dark'] {
+    --background-color: var(--background-color-dark);
+    --text-color: var(--text-color-dark);
+    --link-color: var(--link-color-dark);
+    --container-color: var(--container-color-dark);
+    --footer-color: var(--footer-color-dark);
+  }
+/* 
+---------------------------------------------------------------------
     Global styles
 ---------------------------------------------------------------------
 */
+*{box-sizing: border-box;}
+
 html{
     -ms-text-size-adjust: auto;
     -webkit-text-size-adjust: auto;
@@ -25,8 +72,12 @@ p {
 
 body {
     font-family: sans-serif;
-    background-color: #4e5e6d;
-    font-family: 15px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
 }
 /* 
 ----------------------------------------------------------------------------------------
@@ -44,7 +95,7 @@ hr{
 .container {
     display: flex;
     flex-direction: column;
-    background-color: #d8cccc;
+    background-color: var(--container-color);
     border-radius: 5px;
     padding: .01em 16px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
@@ -57,7 +108,7 @@ hr{
 
 .container-mid {
     padding: .01em 16px;
-    background-color: #e7e7e7;
+    background: var(--container-color);
     border-radius: 10px;
     box-shadow: 3px 3px 5px rgba(0, 0, 0, .5);
     word-wrap: break-word;
@@ -93,15 +144,6 @@ hr{
     margin-inline: 0;
 }
 
-.group {
-    font-size: 16px;
-    text-align: start;
-    background-color: black;
-    color: #f2f2f2;
-    padding-left: 5px;
-    font-size: 100%;
-}
-
 
 .profile img {
     border-radius: 50%;
@@ -118,10 +160,76 @@ hr{
     border-radius: 5px;
 }
 
+/*
+------------------------------------------------------------------------------------------------------
+The styles for the buttons 
+------------------------------------------------------------------------------------------------------
+*/
+.modal {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(12, 12, 12, 0.7);
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.modal-box {
+    position: absolute;
+    background: var(--container-color);
+    height: 40vh;
+    width: 80vw;
+    border: none;
+    border-radius: 10px;
+    z-index: inherit;
+    top: 10vw;
+    margin-inline: 25vw;
+}
+
+.modal-header {
+    height: 25%;
+    position: relative;
+}
+
+.modal-header .title {
+    float: left;
+    color: var(--text-color);
+}
+
+.modal-header .close {
+    float: right;
+}
+
+.modal-body {
+    height: 50%;
+    border-block: solid var(--text-color) 1px;
+}
+
+.modal-footer {
+    height: 25%;
+}
+
+
+@media screen and (min-width: 568px) {
+    .modal-box {
+        width: 50vw;
+        height: 45vh;
+    }
+    
+}
+
+/*
+------------------------------------------------------------------------------------------------------
+The styles for the buttons 
+------------------------------------------------------------------------------------------------------
+*/
 .btn {
     --btn-background: #1963d1;
     --btn-text-color: #fff;
-    background-color: var(--btn-background);
+    background: var(--btn-background);
     color: var(--btn-text-color);
     padding-block: 10px;
     padding-inline: 20px;
@@ -134,13 +242,23 @@ hr{
     cursor: pointer;
 }
 
+.btn:hover {
+    border-color: rgba(0, 0, 255, 0.5); /* Adjust color and transparency as needed */
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Glow effect with box-shadow */
+}
+
+.btn:active {
+    opacity: .7;
+}
+
 .btn-blue {
     --btn-background: #1558e9;
     --btn-text-color: #ffffff;    
 }
 
 .btn-blue:hover {
-    --btn-background: #607d8b;
+    --btn-background: #2494cc;
     --btn-text-color: #fff;
 }
 
@@ -150,33 +268,124 @@ hr{
 }
 
 .btn-red:hover {
-    --btn-background: #607d8b;
+    --btn-background: #e72923;
     --btn-text-color: #fff;
 }
 
 .btn-orange {
-    --btn-background: #da6e16;
+    --btn-background: #c45e0b;
     --btn-text-color: #ffffff;
 }
 
 .btn-orange:hover {
-    --btn-background: #607d8b;
+    --btn-background: #e66f0e;
     --btn-text-color: #fff;
 }
 
-/* The styles for the forms */
-/* .row-forms {
-    display: grid;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    padding: 4px;
+.btn-green {
+    --btn-background: rgb(4, 145, 4);
+    --btn-text-color: white;
 }
 
-.row-forms .container {
-    padding: 40px;
-} */
+.btn-green:hover {
+    --btn-background: rgb(16, 212, 16);
+    --btn-text-color: white;
+}
 
+.btn-purple {
+    --btn-background: rgb(141, 5, 141);
+    --btn-text-color: white;
+}
+
+.btn-purple:hover {
+    --btn-background: rgb(173, 14, 173);
+    --btn-text-color: white;
+}
+
+/*
+------------------------------------------------------------------------------------------------------
+The styles for the carousel 
+------------------------------------------------------------------------------------------------------
+*/
+/* Slideshow container */
+.carousel {
+    display: none;
+    max-width: 1100px;
+    position: relative;
+    margin: auto;
+  }
+  
+  /* Hide the images by default */
+  .slide {
+      display: none;
+  }
+
+  .carousel a {
+    text-decoration: none;
+  }
+  
+  /* Next & previous buttons */
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+  }
+  
+  /* Position the "next button" to the right */
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a black background color with a little bit see-through */
+  .prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+  }
+  
+  /* Caption text */
+  .text {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .dot-box {
+    text-align: center;
+  }
+  /* The dots/bullets/indicators */
+  .dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+  
+  .active, .dot:hover {
+    background-color: #717171;
+  }
+    
+
+/*
+------------------------------------------------------------------------------------------------------
+The styles for the forms 
+------------------------------------------------------------------------------------------------------
+*/
 .form-input {
     display: block;
     height: 30px;
@@ -186,6 +395,12 @@ hr{
     color: black;
     margin-block: 5px;
 
+}
+
+.container input:focus {
+    border-color: rgba(0, 0, 255, 0.5); /* Adjust color and transparency as needed */
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Glow effect with box-shadow */
 }
 
 form label {
@@ -206,7 +421,7 @@ form a {
 .show-pass button {
     position: absolute;
     top: 5px;
-    right: 0px;
+    right: 10px;
     padding: 0;
     background-color: transparent;
     border: none;
@@ -230,7 +445,7 @@ The styles for the footer of the main body
 ------------------------------------------------------------------------------------------------------
 */
 footer {
-    background-color: rgb(0, 113, 248);
+    background-color: var(--footer-color);
     margin-inline: -7px;
     padding-top: 2px;
     border-radius: 20px 20px 0 0;

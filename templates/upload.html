@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,7 @@
         .container {
             display: block;
             margin-inline: 20vw;
-            background-color: blueviolet;
+            background-color: linear-gradient(to left, red, red);
             padding-inline: 16px;
         }
 
@@ -79,10 +79,10 @@
             </select>
 
             <label for="Headline">Headline</label>
-            <input type="text" name="headline" id="" placeholder="Enter the headline to your article" class="form-input">
+            <input type="text" name="headline" id="" placeholder="Enter the headline to your article" class="form-input" required>
     
             <label for="" style=>Context</label>
-            <textarea name="context" id="" placeholder="Write something"></textarea>
+            <textarea name="context" id="" placeholder="Write something" required></textarea>
     
             <input type="submit" value="Submit" class="btn btn-blue">
             <a href="/"><button type="button" class="btn btn-blue">Back home</button></a>
@@ -91,10 +91,11 @@
         
     </div>
           
-        {% else %}
+    {% else %}
     <p>You have to be logged in in order to post an artical</p>
     <a href="/login">Proceed to login</a>
 
-        {% endif %}
+    {% endif %}
+
 </body>
 </html>

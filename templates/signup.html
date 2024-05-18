@@ -1,40 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>InSight-signup</title>
 <link rel="stylesheet" href="../static/css/style.css">
-
-<script>
-
-function showpass() {
-  var a = document.getElementById("pass");
-  var b = document.getElementById("show");
-  var c = document.getElementById("pass2");
-  if (a.type === "password") {
-    a.type = "text";
-    b.src = '../static/images/icons/hide.png'
-    c.type ="text"
-  } else {
-    a.type = "password";
-    b.src = '../static/images/icons/show.png'
-    c.type = "password"
-  }
-}
-
-
-function previewImage(event) {
-    var input = event.target;
-    var preview = document.getElementById('preview');
-    preview.style.display = "block";
-    var reader = new FileReader();
-    reader.onload = function() {
-        preview.src = reader.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-}
-</script>
 
 <style>
 
@@ -91,7 +61,8 @@ function previewImage(event) {
       <input type="text" name="full_name" id="" class="form-input" placeholder="Enter your full name" required>
 
       <label for="">Username &ast;</label>
-      <input type="text" name="username" id="" class="form-input" placeholder="Enter your username" required>
+      <input type="text" name="username" id="username" class="form-input" placeholder="Username" required>
+      <span id="usernameAvailability" style="font: size 0.3rem;"></span>
 
       <label for="">Email &ast;</label>
       <input type="email" name="email" id="" class="form-input" placeholder="Enter your email" required>
@@ -122,6 +93,54 @@ function previewImage(event) {
   </div>
 
 </div>
-  
+
+<script src="../static/js/main.js"></script>
+<script>
+
+  function previewImage(event) {
+      var input = event.target;
+      var preview = document.getElementById('preview');
+      preview.style.display = "block";
+      var reader = new FileReader();
+      reader.onload = function() {
+          preview.src = reader.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+  }
+
+  document.getElementById("username").addEventListener("input", function() {
+    var username = this.value.trim();
+    if (username !== "") {
+        checkUsernameAvailability(username);
+    } else {
+        document.getElementById("usernameAvailability").textContent = "";
+    }
+  });
+
+  function checkUsernameAvailability(username) {
+    fetch("/check_username", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username: username })
+    })
+    .then(response => response.json())
+    .then(data => {
+        var response = document.getElementById("usernameAvailability")
+        if (data.available) {
+            response.textContent = "Username available";
+            response.style.color = "green"
+            response.style.fontSize = ".9em"
+        } else {
+            response.textContent = "Username not available";
+            response.style.color = "red"
+        }
+    })
+    .catch(error => {
+        console.error("Error checking username availability:", error);
+    });
+}
+  </script>  
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="theme" onload="themefuction()">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,56 +9,6 @@
     <link rel="stylesheet" href="../static/css/navbar.css">
     <link rel="stylesheet" href="../static/css/grid.css">
     <link rel="stylesheet" href="../static/css/fonts.css">
-    <script src="../static/js/script.js"></script>
-
-    <script>
-        // Function to scroll to the top of the page
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-    
-        // Show the back-to-top button when user scrolls down
-        window.onscroll = function() {scrollFunction()};
-    
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                document.querySelector('.back-to-top').style.display = "block";
-            } else {
-                document.querySelector('.back-to-top').style.display = "none";
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-        // Get all elements with the class "date"
-        var dateElements = document.querySelectorAll(".date");
-
-        // Loop through each date element
-        dateElements.forEach(function(dateElement) {
-            var dateValue = dateElement.textContent.trim();
-            var parts = dateValue.split('-');
-
-            if (parts.length === 3) {
-                var year = parts[0];
-                var month = parseInt(parts[1]);
-                var day = parts[2];
-                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-                if (month >= 1 && month <= 12) {
-                    var formattedDate = day + ', ' + months[month - 1] + ', ' + year;
-                    dateElement.textContent = formattedDate;
-                } else {
-                    console.error("Invalid month:", month);
-                }
-            } else {
-                console.error("Invalid date format:", dateValue);
-            }
-        });
-    });
-
-    </script>
 
     <style>
         .back-to-top {
@@ -70,7 +20,7 @@
 <body>
     
     <!-- Start of the navbar -->
-    <div class="topnav" id="myTopnav">
+    <div class="topnav" style="font-family: Anton;" id="myTopnav" role="navigation">
         
         <div class="logo"><a href="/">In<b>Sight</b></a></div>
         <a href="/technology">Technology</a>
@@ -78,8 +28,10 @@
         <a href="/sports">sports</a>
         <a href="/politics">Politics</a>
         <a href="/other">Other</a>
+        <button class="btn btn-purple a" onclick="modalfunction(true)">Modal</button>
+        <button class="btn btn-red" onclick="themefunction()">Theme</button>
 
-        <a href="javascript:void(0)" class="icon" onclick="myFunction()">
+        <a href="javascript:void(0)" class="icon" onclick="navfunction()">
             <span></span>
             <span></span>
             <span></span>
@@ -88,13 +40,47 @@
     </div>
     <!-- End of the navbar -->
 
+    <div class="modal" id="modal" hidden>
+        <div class="modal-box">            
+        <div class="modal-header">
+            <div class="title"><h3>Example</h3></div>
+            <div class="close"><button class="btn btn-red" onclick="modalfunction(false)">close</button></div>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to log out</p>
+        </div>
+        <div class="modal-footer"></div>
+        </div>
+    </div>
+
+    <div class="carousel">
+        <div class="slide">
+            <img src="../static/images/Tech.jpg" alt="" width="100%">
+            <div class="text">Caption Text1</div>
+        </div>
+        <div class="slide">
+            <img src="../static/images/other.jpg" alt="" width="100%">
+            <div class="text">Caption Text2</div>
+        </div>
+        <div class="slide">
+            <img src="../static/images/fashion.jpg" alt="" width="100%">
+            <div class="text">Caption Text3</div>
+        </div>
+        <a href="javascript:void(0)" class="prev" onclick="plusSlides(-1)">&#10094</a>
+        <a href="javascript:void(0)" class="next" onclick="plusSlides(1)">&#10095</a>
+        <div class="dot-box">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span></div>
+    </div>
+
     <!-- The grid that holds the elements of the body -->
     <div class="row">
 
         <!-- The div to hold the first column -->
         <div class="col-3">
 
-            <div class="container" style="background-color: dimgrey;">
+            <div class="container">
                 {% if session['username'] %}
                     <h4>My Profile</h4>
                     <div class="profile">
@@ -140,8 +126,12 @@
                     
                 </div>
                 <div class="middle">
-                    <h3 style="font-family: ChakraPetch-Bold;">{{ item[2] }}</h3>
-                    <p>{{ item[1] }}</p>
+                    <article>
+                        <header>
+                            <h3 style="font-family: ChakraPetch">{{ item[2] }}</h3>
+                        </header>
+                        <p>{{ item[1] }}</p>
+                    </article>
                 </div>
                 
             </div>
@@ -157,7 +147,7 @@
                 
                 <h4>Coming <em>soon</em></h4>
 
-                <p>A new version of this website will soon be out. This version is just but the first prototype and I am proud to say that it has ben a success.</p>
+                <p style="font-family: ChakraPetch; font-weight: bold;">A new version of this website will soon be out. This version is just but the first prototype and I am proud to say that it has ben a success.</p>
                 <p><i><b>Life is just like a bicycle, in order to maintain balance, you have to keep moving.</b></i></p>
                 <p>&hyphen; Albert Einstein</p>
 
@@ -185,7 +175,7 @@
         <div class="col-4 comments">
             <h4>Comments</h4>
             <p>We do value your feedback as it allows us to make this platform better for everyone</p>
-            <form action="/review" method="post">
+            <form action="/review" method="post" target="_self">
                 <label for="">Subject</label>
                 <input type="text" name="subject" id="" class="form-input" placeholder="Example: User interface">
                 <label for="">Description</label>
@@ -200,5 +190,8 @@
         </div>
 
     </footer>
+
+    
+    <script src="../static/js/main.js"></script>
 </body>
 </html>

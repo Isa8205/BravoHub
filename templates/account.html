@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,37 +7,7 @@
     <title>InSight-Account</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/grid.css">
-
-    <script>
-
-        document.addEventListener("DOMContentLoaded", function() {
-        // Get all elements with the class "date"
-        var dateElements = document.querySelectorAll(".date");
-
-        // Loop through each date element
-        dateElements.forEach(function(dateElement) {
-            var dateValue = dateElement.textContent.trim();
-            var parts = dateValue.split('-');
-
-            if (parts.length === 3) {
-                var year = parts[0];
-                var month = parseInt(parts[1]);
-                var day = parts[2];
-                var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-                if (month >= 1 && month <= 12) {
-                    var formattedDate = day + ', ' + months[month - 1] + ', ' + year;
-                    dateElement.textContent = formattedDate;
-                } else {
-                    console.error("Invalid month:", month);
-                }
-            } else {
-                console.error("Invalid date format:", dateValue);
-            }
-        });
-    });
-    </script>
-
+    
     <style>
 
         body::-webkit-scrollbar {
@@ -94,29 +64,13 @@
             display: inline-block;
             position: absolute;
             right: 10px;
-            top: 20px;
+            top: 10px;
             text-align: start;
         }
 
         .credentials p {
             margin: 0;
             margin-bottom: 10px;
-        }
-
-        .btn {
-            --btn-background: #c43434;
-            --btn-text-color: #fff;
-            background-color: var(--btn-background);
-            color: var(--btn-text-color);
-            padding-block: 10px;
-            padding-inline: 20px;
-            border-radius: 5px;
-            font-size: 100%;
-            font-weight: 545;
-            margin-inline: 5px;
-            margin-block: 10px;
-            border: none;
-            cursor: pointer;
         }
 
         .posts {
@@ -150,7 +104,7 @@
         <div class="credentials">
 
             <div class="profile">
-                <img src="../static/profiles/{{session['profile']}}" alt="Profile picture" height="100">
+                <img src="../static/profiles/{{session['profile']}}" alt="Profile picture" height="50">
                 <a href="/"><button class="btn btn-blue">Home</button></a>
                 <a href="/upload"><button class="btn btn-orange">Upload</button></a>
             </div>
@@ -192,6 +146,8 @@
         </div>
 
     </div>
+
+    <script src="../static/js/main.js"></script>
     
 </body>
 </html>

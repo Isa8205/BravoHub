@@ -8,9 +8,16 @@
   font-family: ChakraPetch;
   src: url(../fonts/ChakraPetch-Regular.ttf) format('tff');
   font-weight: normal;
+
+  src: url(../fonts/ChakraPetch-Bold.ttf);
+  font-weight: bold;
+
+  src: url(../fonts/ChakraPetch-Italic.ttf);
+  font-style: italic;
 }
 
 @font-face {
   font-family: Bitter;
-  src: url(../fonts/Bitter-Italic.ttf);
+  src: url(../fonts/Bitter-VariableFont_wght.ttf);
+  font-weight: normal;
 }

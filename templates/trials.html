@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Username Availability Check</title>
+</head>
+<body>
+    <form id="myForm">
+        <input type="text" name="username" id="username" placeholder="Username">
+        <span id="usernameAvailability"></span>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+       // function check_username() {
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("username").addEventListener("input", function() {
+                    var username = this.value.trim();
+                    if (username !== "") {
+                        checkUsernameAvailability(username);
+                    } else {
+                        document.getElementById("usernameAvailability").textContent = "";
+                    }
+                });
+
+                function checkUsernameAvailability(username) {
+                    fetch("/check_username", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ username: username })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.available) {
+                            document.getElementById("usernameAvailability").textContent = "Username available";
+                        } else {
+                            document.getElementById("usernameAvailability").textContent = "Username not available";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error checking username availability:", error);
+                    });
+                }
+            })
+       // }
+    </script>
+</body>
+</html>
