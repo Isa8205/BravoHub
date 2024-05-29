@@ -1,11 +1,14 @@
+@import url('style.css');
+
 .topnav {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: var(--navbar-color);
     overflow: hidden;
     padding: 5px;
     position: sticky;
-    margin: 10px;
-    top: 5px;
-    border-radius: 10px;
+    border-radius: 0 0 15px 15px;
+    top: 0;
+    right: 0;
+    left: 0;
     z-index: 1;
 }
 
@@ -38,7 +41,7 @@
 }
 
 .topnav a {
-    float: left;
+    float: right;
     display: block;
     color: #f2f2f2;
     text-align: center;
@@ -59,7 +62,6 @@
 }
 
 @media screen and (max-width: 750px) {
-    .topnav {top: 10px;}
     .topnav a:not(:first-child) {display: none;}
     .topnav a.icon{
         float: right;
@@ -67,8 +69,8 @@
     }
 }
 
-@media screen and (max-width: 650px) {
-    .topnav.responsive {position: relative; overflow-x: auto;}
+@media screen and (max-width: 750px) {
+    .topnav.responsive {position: fixed; overflow-x: auto; z-index: 2;}
     .topnav.responsive a.icon {
         position: absolute;
         right: 4px;

@@ -81,29 +81,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-/*   function themefunction(state) {
-  var themeElement = document.getElementById('theme');
-  var currenstate = themeElement.getAttribute('data-theme')
-
-  if (state) {
-      themeElement.setAttribute("data-theme", "dark");
-  } else if (currenstate === "dark") {
-      currenstate = "light"
-      themeElement.removeAttribute("data-theme");
-  }
-}*/
-
-function themefunction() {
-  var themeElement = document.getElementById('theme');
-  var currentState = themeElement.getAttribute("data-theme");
-
-  if (currentState === "light") {
-      themeElement.setAttribute("data-theme", "dark");
-  } else {
-      themeElement.setAttribute("data-theme", "light");
-  }
-}
-
 // Function to scroll to the top of the page
 function scrollToTop() {
   window.scrollTo({
@@ -129,13 +106,12 @@ Modal
 ---------------------------------------------------------------------------------------------------------------
 */
 function modalfunction(state) {
-  var modal = document.getElementById('modal')
+  const modal = document.getElementById('modal')
 
   if (state) {            
-      modal.removeAttribute("hidden")
-      modal.style.display = "block"
+      modal.style.visibility = "visible"
   } else {
-      modal.style.display = "none"
+      modal.style.visibility = "hidden"
   }
 }
 

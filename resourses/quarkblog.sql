@@ -32,7 +32,7 @@ CREATE TABLE `articles` (
   `genre` varchar(50) NOT NULL,
   `headline` varchar(50) NOT NULL,
   `context` longtext NOT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp()
+  `date` TIMESTAMP NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

@@ -1,7 +1,15 @@
 from flask import *
 import pymysql
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bravohub.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 # Database configuration
 db_host = 'localhost'
@@ -39,7 +47,29 @@ def check_username_availability(username):
 
 @app.route('/')
 def index():
-    return render_template('trials.html')
+
+    sql = '''SELECT * FROM `reviews`'''
+
+    connection = db.engine.connect()
+    print("connected to the database")
+
+    try:
+        result = connection.execute(text(sql))
+        page_data = result.fetchall()
+        if page_data:
+            for row in page_data:
+                print(row)
+        else:
+            print('No data found')
+    except SQLAlchemyError as e:
+        print(f"SQLAlchemy Exception: {e}")
+    except Exception as e:
+        print(f"General Exception: {e}")
+    finally:
+        connection.close()
+
+    return render_template('trials.html', results=page_data)
+
 
 @app.route('/check_username', methods=['POST'])
 def check_username():

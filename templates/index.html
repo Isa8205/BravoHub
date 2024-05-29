@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="theme" onload="themefuction()">
+<html lang="en" id="theme">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,12 +15,21 @@
             position: fixed;
             bottom: 10vh;
         }
+
+        .upload {
+            position: fixed;
+            bottom: 10vh;
+            right: 10vh;
+            background: #ef233c;
+            border-radius: 50%;
+            padding: 15px;
+        }
     </style>
 </head>
 <body>
     
     <!-- Start of the navbar -->
-    <div class="topnav" style="font-family: Anton;" id="myTopnav" role="navigation">
+    <div class="topnav" id="myTopnav" role="navigation">
         
         <div class="logo"><a href="/">In<b>Sight</b></a></div>
         <a href="/technology">Technology</a>
@@ -28,8 +37,8 @@
         <a href="/sports">sports</a>
         <a href="/politics">Politics</a>
         <a href="/other">Other</a>
-        <button class="btn btn-purple a" onclick="modalfunction(true)">Modal</button>
-        <button class="btn btn-red" onclick="themefunction()">Theme</button>
+        <!-- <button class="btn btn-purple a" onclick="modalfunction(true)">Modal</button>
+        <button class="btn btn-red" onclick="themeFunction()">Theme</button> -->
 
         <a href="javascript:void(0)" class="icon" onclick="navfunction()">
             <span></span>
@@ -40,7 +49,7 @@
     </div>
     <!-- End of the navbar -->
 
-    <div class="modal" id="modal" hidden>
+    <div class="modal" id="modal">
         <div class="modal-box">            
         <div class="modal-header">
             <div class="title"><h3>Example</h3></div>
@@ -49,7 +58,9 @@
         <div class="modal-body">
             <p>Are you sure you want to log out</p>
         </div>
-        <div class="modal-footer"></div>
+        <div class="modal-footer">
+            <button class="btn btn-red">Yes</button>
+        </div>
         </div>
     </div>
 
@@ -118,19 +129,19 @@
             {% for item in page_data %}
             <div class="container-mid">
                 <div class="top">
-                    <img src="../static/profiles/{{ item[4] }}" alt="" height="50">
+                    <img src="../static/profiles/{{ item[3] }}" alt="Author profile" height="50">
                     <div class="info">
                         <b style="display: block;">{{ item[0] }}</b>
-                        <i style="display: block;" class="date">{{ item[3] }}</i>
+                        <i style="display: block;" class="date">{{ item[4] }}</i>
                     </div>
                     
                 </div>
                 <div class="middle">
                     <article>
                         <header>
-                            <h3 style="font-family: ChakraPetch">{{ item[2] }}</h3>
+                            <h3 style="font-family: ChakraPetch">{{ item[1] }}</h3>
                         </header>
-                        <p>{{ item[1] }}</p>
+                        <p>{{ item[2] }}</p>
                     </article>
                 </div>
                 
@@ -160,6 +171,7 @@
 
     </div>
     <a href="#" class="back-to-top" onclick="scrollToTop()"><img src="../static/images/icons/arrow-up.png" alt="" height="30px"></a>
+    <a href="/upload"><span class="upload"><img src="../static/images/icons/add.png" alt="upload" height="40"></span></a>
     <!-- End of the grid -->
 
     <!-- Start of the footer -->
@@ -191,7 +203,7 @@
 
     </footer>
 
-    
-    <script src="../static/js/main.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js')}}"></script>
 </body>
 </html>

@@ -8,20 +8,23 @@
 */
 :root {
     /* Light theme colors */
-    --background-color-light: #f5f7f8;
+    --navbar-color-light: rgb(43, 45, 66);
+    --background-color-light: rgb(141, 153, 174);
     --text-color-light: #000000;
     --link-color-light: #0066CC;
-    --container-color-light: #cac5c5;
-    --footer-color-light: grey;
+    --container-color-light: rgb(237, 242, 244);
+    --footer-color-light: rgb(217, 4, 41);
   
     /* Dark theme colors */
-    --background-color-dark: #121212;
+    --navbar-color-dark: #1B1A55;
+    --background-color-dark: #1B1A55;
     --text-color-dark: #FFFFFF;
     --link-color-dark: #6ECAF2;
-    --container-color-dark: rgb(38, 41, 42);
-    --footer-color-dark: rgb(223, 18, 18);
+    --container-color-dark: #535C91;
+    --footer-color-dark: #9290C3;
 
-    /* The default theme */    
+    /* The default theme */ 
+    --navbar-color: var(--navbar-color-light); 
     --background-color: var(--background-color-light);
     --text-color: var(--text-color-light);
     --link-color: var(--link-color-light);
@@ -31,6 +34,7 @@
   }
 
   [data-theme='light'] {
+    --navbar-color: var(--navbar-color-light);
     --background-color: var(--background-color-light);
     --text-color: var(--text-color-light);
     --link-color: var(--link-color-light);
@@ -40,6 +44,7 @@
   
   /* Dark theme */
   [data-theme='dark'] {
+    --navbar-color: var(--navbar-color-dark);
     --background-color: var(--background-color-dark);
     --text-color: var(--text-color-dark);
     --link-color: var(--link-color-dark);
@@ -165,61 +170,107 @@ hr{
 The styles for the buttons 
 ------------------------------------------------------------------------------------------------------
 */
+
 .modal {
     width: 100vw;
     height: 100vh;
     background: rgba(12, 12, 12, 0.7);
     position: fixed;
-    z-index: 2;
+    z-index: 999;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: hidden;
+}
+
+.modal.active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .modal-box {
-    position: absolute;
-    background: var(--container-color);
+    background: var(--container-color, #fff);
     height: 40vh;
     width: 80vw;
     border: none;
     border-radius: 10px;
-    z-index: inherit;
-    top: 10vw;
-    margin-inline: 25vw;
+    z-index: 3;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-50px);
+    opacity: 1;
+}
+
+.modal.active .modal-box {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .modal-header {
-    height: 25%;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .modal-header .title {
-    float: left;
-    color: var(--text-color);
+    font-size: 1.5em;
+    color: var(--text-color, #333);
 }
 
-.modal-header .close {
-    float: right;
+.modal-header .close button {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: var(--text-color, #333);
 }
 
 .modal-body {
     height: 50%;
-    border-block: solid var(--text-color) 1px;
+    padding: 10px 0;
+    border-top: solid var(--border-color, #ccc) 1px;
+    border-bottom: solid var(--border-color, #ccc) 1px;
+    color: var(--text-color, #333);
+    font-size: 1em;
 }
 
 .modal-footer {
     height: 25%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
+/* .modal-footer button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: var(--button-background, #007BFF);
+    color: #fff;
+    transition: background 0.3s ease-in-out;
+}
+
+.modal-footer button:hover {
+    background: var(--button-background-hover, #0056b3);
+} */
 
 @media screen and (min-width: 568px) {
     .modal-box {
         width: 50vw;
         height: 45vh;
     }
-    
 }
+
 
 /*
 ------------------------------------------------------------------------------------------------------
@@ -227,7 +278,7 @@ The styles for the buttons
 ------------------------------------------------------------------------------------------------------
 */
 .btn {
-    --btn-background: #1963d1;
+    --btn-background: rgb(43, 45, 66);
     --btn-text-color: #fff;
     background: var(--btn-background);
     color: var(--btn-text-color);
@@ -243,15 +294,15 @@ The styles for the buttons
 }
 
 .btn:hover {
-    border-color: rgba(0, 0, 255, 0.5); /* Adjust color and transparency as needed */
-    outline: none; /* Remove default focus outline */
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Glow effect with box-shadow */
+    border-color: rgba(0, 0, 255, 0.5);
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
 }
 
 .btn:active {
     opacity: .7;
 }
-
+/* 
 .btn-blue {
     --btn-background: #1558e9;
     --btn-text-color: #ffffff;    
@@ -299,8 +350,8 @@ The styles for the buttons
 
 .btn-purple:hover {
     --btn-background: rgb(173, 14, 173);
-    --btn-text-color: white;
-}
+    --btn-text-color: white; 
+}*/
 
 /*
 ------------------------------------------------------------------------------------------------------

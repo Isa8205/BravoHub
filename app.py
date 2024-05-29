@@ -1,136 +1,102 @@
+import os
+import sqlite3
+from functools import wraps
 from flask import *
-import pymysql
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 
 app = Flask(__name__)
 app.secret_key = "fjsd8sf8s9fdsaHh"
 
 # Database configuration
-db_host = "localhost"
-db_user = "root"
-db_password = ''
-db_name = "quarkblog"
+db_path = 'bravohub.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# Define the models
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    full_name = db.Column(db.String(100))
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(100))
+    password = db.Column(db.String(100))
+    profile = db.Column(db.String(100))
+    articles = db.relationship('Article', backref='user', lazy=True)
+
+class Article(db.Model):
+    __tablename__ = 'articles'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), db.ForeignKey('users.username'), nullable=False)
+    genre = db.Column(db.String(50))
+    headline = db.Column(db.String(255))
+    context = db.Column(db.Text)
+    date = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+class Review(db.Model):
+    __tablename__ = 'reviews'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), db.ForeignKey('users.username'), nullable=False)
+    subject = db.Column(db.String(255))
+    description = db.Column(db.Text)
+
 
 # The functions to be used within the application
 def check_username_availability(username):
-    try:
-        # Connect to MySQL database
-        connection = pymysql.connect(host=db_host,
-                                     user=db_user,
-                                     password=db_password,
-                                     database=db_name,
-                                     cursorclass=pymysql.cursors.DictCursor)
-        print('connected to the database')
+    user = User.query.filter_by(username=username).first()
+    return user is not None
 
-        # Check if the username exists in the database
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM users WHERE username = %s"
-            cursor.execute(sql, (username,))
-            result = cursor.fetchone()
-            
-        if result:
-            return True
-        else:
-            return False
+def create_database():
+    if not os.path.exists(db_path):
+        db.create_all()
+        print("Database created successfully")
 
-    except Exception as e:
-        print("Error:", e)
-        return False
-    
-    finally:
-        connection.close()
-#End of the fuctions
-
- 
 # The routes to the application
 @app.route('/')
 def homepage():
-    connection = pymysql.connect(
-        host=db_host, user=db_user, password=db_password, database=db_name
-    )
-    cursor = connection.cursor()
-    
-    # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username'''
-    cursor.execute(sql)
-    page_data = cursor.fetchall()
-    
-    connection.close()
-    return render_template('index.html',  page_data=page_data)
+    sql = text('''
+            SELECT a.username, a.headline, a.context, u.profile, a.date
+            FROM articles a
+            JOIN users u ON a.username = u.username
+        ''')
+    try:
+        conn = db.engine.connect()
+        result = conn.execute(sql)
+        page_data = result.fetchall()
+        print(page_data[0])
+        
+        return render_template('index.html', page_data=page_data)
+    except Exception as e:
+        print(f"Exception: {e}")
+        return render_template('index.html', page_data=[])
+
 
 @app.route('/technology')
 def technology():
-    connection = pymysql.connect(
-        host=db_host, user=db_user, password=db_password, database=db_name
-    )
-    cursor = connection.cursor()
-    
-    # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE a.genre = "Technology" '''
-    cursor.execute(sql)
-    page_data = cursor.fetchall()
-    
-    connection.close()
-    return render_template('index.html',  page_data=page_data)
+    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Technology").all()
+    return render_template('index.html', page_data=page_data)
 
 @app.route('/sports')
 def sports():
-    connection = pymysql.connect(
-        host=db_host, user=db_user, password=db_password, database=db_name
-    )
-    cursor = connection.cursor()
-    
-    # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE a.genre = "Sports" '''
-    cursor.execute(sql)
-    page_data = cursor.fetchall()
-    
-    connection.close()
-    return render_template('index.html',  page_data=page_data)
+    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Sports").all()
+    return render_template('index.html', page_data=page_data)
 
 @app.route('/fashion')
 def fashion():
-    connection = pymysql.connect(
-        host=db_host, user=db_user, password=db_password, database=db_name
-    )
-    cursor = connection.cursor()
-    
-    # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE a.genre = "Fashion" '''
-    cursor.execute(sql)
-    page_data = cursor.fetchall()
-    
-    connection.close()
-    return render_template('index.html',  page_data=page_data)
+    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Fashion").all()
+    return render_template('index.html', page_data=page_data)
 
 @app.route('/politics')
-def business():
-    connection = pymysql.connect(
-        host=db_host, user=db_user, password=db_password, database=db_name
-    )
-    cursor = connection.cursor()
-    
-    # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE a.genre = "Politics" '''
-    cursor.execute(sql)
-    page_data = cursor.fetchall()
-    
-    connection.close()
-    return render_template('index.html',  page_data=page_data)
+def politics():
+    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Politics").all()
+    return render_template('index.html', page_data=page_data)
 
 @app.route('/other')
 def other():
-    connection = pymysql.connect(
-        host=db_host, user=db_user, password=db_password, database=db_name
-    )
-    cursor = connection.cursor()
-    
-    # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE a.genre = "Other" '''
-    cursor.execute(sql)
-    page_data = cursor.fetchall()
-    
-    connection.close()
-    return render_template('index.html',  page_data=page_data)
+    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Other").all()
+    return render_template('index.html', page_data=page_data)
 
 @app.route('/review', methods=['POST', 'GET'])
 def review():
@@ -139,25 +105,14 @@ def review():
         subject = request.form['subject']
         description = request.form['description']
         
-        connection = pymysql.connect(
-            host=db_host, user=db_user, password=db_password, database=db_name
-        )
-        cursor = connection.cursor()
-        
-        sql ='''INSERT INTO `reviews`(`username`, `subject`, `description`) VALUES (%s, %s, %s)'''
-        
         try:
-            cursor.execute(sql, (username, subject, description))
-            print("Query: ", sql % (username, subject, description))
-            connection.commit()
-            print("changes made to the database")
+            review = Review(username=username, subject=subject, description=description)
+            db.session.add(review)
+            db.session.commit()
             return '<p>We have received your message and are working on it</p> <a href="/">Back home</a>'
         except Exception as e:
             print("Exception: ", str(e))
             return '<p>We encountered an error, please try again<a href="/">Back home</a></p>'
-            
-        finally:
-            connection.close()
             
     else:
         return '<p>We encountered an error please try again</p> <a href="/">Back home</a>'
@@ -173,10 +128,8 @@ def signup():
         profile = request.files['profile']
         
         if profile:
-            profile_pic = profile
             profile_name = profile.filename
-            # Save profile picture
-            profile_pic.save('static/profiles/' + profile_name)
+            profile.save('static/profiles/' + profile_name)
         else:
             profile_name = 'avatar6.png'
 
@@ -187,27 +140,13 @@ def signup():
             return render_template('signup.html', errorpass="Passwords must match")
         else:
             try:
-                # Establishing a connection with the database
-                connection = pymysql.connect(
-                    host=db_host, user=db_user, password=db_password, database="quarkblog"
-                )
-                print("Conneccted to the database")
-                cursor = connection.cursor()
-
-                # Insert user data into the database
-                data = (full_name, username, email, password1, profile_name)
-                sql = '''INSERT INTO `users`(`full_name`, `username`, `email`, `password`, `profile`) 
-                         VALUES (%s, %s, %s, %s, %s)'''
-                cursor.execute(sql, data)
-                
-                connection.commit()  # Commit the transaction
-
+                user = User(full_name=full_name, username=username, email=email, password=password1, profile=profile_name)
+                db.session.add(user)
+                db.session.commit()
                 return render_template('signup.html', message="Signup successful. Proceed to login.")
             except Exception as e:
                 print("Exception:", str(e))
                 return render_template('signup.html', error="Signup failed. Please check your details and try again.")
-            finally:
-                connection.close()
 
     else:
         return render_template('signup.html')
@@ -226,86 +165,67 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # Establish a database connection
-        connection = pymysql.connect(
-            host=db_host, user=db_user, password=db_password, database=db_name
-        )
-
         try:
-            with connection.cursor() as cursor:
-                # Execute the SQL query to fetch username and profile
-                sql = '''SELECT `full_name`, `username`, `password`, `profile` FROM `users` WHERE `username`=%s AND `password`=%s'''
-                cursor.execute(sql, (username, password))
-                user_data = cursor.fetchone()  # Fetch the first row
-                # print(user_data)
-
-                if user_data:  # If user exists
-                    session['username'] = user_data[1]  # Store username in session
-                    session['profile'] = user_data[3]   # Store profile in session
-                    session['full_name'] = user_data[0]
-                    return redirect('/')
-                else:
-                    return render_template('login.html', error='Invalid Credentials')
+            user = User.query.filter_by(username=username, password=password).first()
+            if user:
+                session['username'] = user.username
+                session['profile'] = user.profile
+                session['full_name'] = user.full_name
+                return redirect('/')
+            else:
+                return render_template('login.html', error='Invalid Credentials')
         except Exception as e:
             print("Exception:", str(e))
             return render_template('login.html', error='An error occurred while logging in please try again')
 
-        finally:
-            connection.close()
-    else :
+    else:
         return render_template('login.html')
     
-@app.route('/upload', methods = ['POST', 'GET'])
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/upload', methods=['POST', 'GET'])
+@login_required
 def upload():
     if request.method == 'POST':
-        username = session['username']
+        username = session.get('username')
         genre = request.form['genre']
         headline = request.form['headline']
         context = request.form['context']
         
-        connection = pymysql.connect(
-            host=db_host, user=db_user, password=db_password, database=db_name
-        )
-        cursor = connection.cursor()
-        
-        sql = '''INSERT INTO `articles`(`username`, `genre`, `headline`, `context`) VALUES (%s, %s, %s, %s)'''
-        
         try:
-            cursor.execute(sql, (username, genre, headline, context))
-            connection.commit()
+            article = Article(username=username, genre=genre, headline=headline, context=context)
+            db.session.add(article)
+            db.session.commit()
             return render_template('upload.html', success="Upload successful")
         except Exception as e:
             print("Exception: ", str(e))
             return render_template('upload.html', errorupload="Failed to upload please try again")
-        finally:
-            connection.close()
             
     else:
         return render_template('upload.html')
+
         
     
 @app.route('/account')
 def account():
-    connection = pymysql.connect(
-        host=db_host, user=db_user, password=db_password, database=db_name
-    )
-    cursor = connection.cursor()
     username = session['username']
-    
-    # The sql query itself
-    sql = '''SELECT a.username, a.context, a.headline, a.date, u.profile FROM articles a JOIN users u ON a.username = u.username WHERE u.username = %s '''
-    cursor.execute(sql, (username))
-    page_data = cursor.fetchall()
-    print(page_data)
-    
-    connection.close()
-    return render_template('account.html',  page_data=page_data)
+    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(User.username == username).all()
+    return render_template('account.html', page_data=page_data)
     
 @app.route('/logout')
 def logout():
-  session.clear()
-  return redirect('/')
+    session.clear()
+    return redirect('/')
 
 
-if (__name__) == ("__main__"):
-  app.run(debug=True)
+if __name__ == "__main__":
+    with app.app_context():
+        create_database()
+    app.run(debug=True)

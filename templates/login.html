@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" id="theme" onload="setTheme()">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>InSight-login</title>
   <link rel="stylesheet" href="../static/css/style.css">
-  <!-- <script src="../static/js/script.js"></script> -->
 
 </head>
+
 <body>
   
 <div class="row-forms">
@@ -37,5 +37,7 @@
 
 </div>
 
+<script src="{{ url_for( 'static', filename='js/main.js')}}"></script>
+<script src="{{ url_for( 'static', filename='js/theme.js')}}"></script>
 </body>
 </html>

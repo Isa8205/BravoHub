@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,10 @@
         <span id="usernameAvailability"></span>
         <button type="submit">Submit</button>
     </form>
+
+    {% for result in results%}
+        <p>{{result}}</p>
+    {% endfor %}
 
     <script>
        // function check_username() {
