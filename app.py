@@ -4,6 +4,7 @@ from functools import wraps
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+from functions import *
 
 app = Flask(__name__)
 app.secret_key = "fjsd8sf8s9fdsaHh"
@@ -54,6 +55,22 @@ def create_database():
         print("Database created successfully")
 
 # The routes to the application
+@app.route('/admin')
+def admin():
+    sql = text('''SELECT username, full_name, password, profile FROM users''')
+
+    try:
+        conn = db.engine.connect()
+        result = conn.execute(sql)
+        page_data = result.fetchall()
+
+        return render_template('admin.html', page_data=page_data)
+    except Exception as e:
+        print(f"Exception: {e}")
+        return render_template('admin.html', page_data=[])
+    finally:
+        conn.close()
+
 @app.route('/')
 def homepage():
     sql = text('''
@@ -65,38 +82,114 @@ def homepage():
         conn = db.engine.connect()
         result = conn.execute(sql)
         page_data = result.fetchall()
-        print(page_data[0])
         
         return render_template('index.html', page_data=page_data)
     except Exception as e:
         print(f"Exception: {e}")
         return render_template('index.html', page_data=[])
+    finally:
+        conn.close()
 
 
 @app.route('/technology')
 def technology():
-    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Technology").all()
-    return render_template('index.html', page_data=page_data)
+    sql = text('''
+        SELECT a.username, a.headline, a.context, u.profile, a.date
+        FROM articles a
+        JOIN users u ON a.username = u.username
+        WHERE a.genre = "Technology"
+    ''')
+    try:
+        conn = db.engine.connect()
+        result = conn.execute(sql)
+        page_data = result.fetchall()
+        
+        return render_template('index.html', page_data=page_data)
+    except Exception as e:
+        print(f"Exception: {e}")
+        return render_template('index.html', page_data=[])
+    finally:
+        conn.close()
 
 @app.route('/sports')
 def sports():
-    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Sports").all()
-    return render_template('index.html', page_data=page_data)
+    sql = text('''
+        SELECT a.username, a.headline, a.context, u.profile, a.date
+        FROM articles a
+        JOIN users u ON a.username = u.username
+        WHERE a.genre = "Sports"
+    ''')
+    try:
+        conn = db.engine.connect()
+        result = conn.execute(sql)
+        page_data = result.fetchall()
+        
+        return render_template('index.html', page_data=page_data)
+    except Exception as e:
+        print(f"Exception: {e}")
+        return render_template('index.html', page_data=[])
+    finally:
+        conn.close()
 
 @app.route('/fashion')
 def fashion():
-    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Fashion").all()
-    return render_template('index.html', page_data=page_data)
+    sql = text('''
+        SELECT a.username, a.headline, a.context, u.profile, a.date
+        FROM articles a
+        JOIN users u ON a.username = u.username
+        WHERE a.genre = "Fashion"
+    ''')
+    try:
+        conn = db.engine.connect()
+        result = conn.execute(sql)
+        page_data = result.fetchall()
+        
+        return render_template('index.html', page_data=page_data)
+    except Exception as e:
+        print(f"Exception: {e}")
+        return render_template('index.html', page_data=[])
+    finally:
+        conn.close()
 
 @app.route('/politics')
 def politics():
-    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Politics").all()
-    return render_template('index.html', page_data=page_data)
+    sql = text('''
+        SELECT a.username, a.headline, a.context, u.profile, a.date
+        FROM articles a
+        JOIN users u ON a.username = u.username
+        WHERE a.genre = "Politics"
+    ''')
+    try:
+        conn = db.engine.connect()
+        result = conn.execute(sql)
+        page_data = result.fetchall()
+        
+        return render_template('index.html', page_data=page_data)
+    except Exception as e:
+        print(f"Exception: {e}")
+        return render_template('index.html', page_data=[])
+    finally:
+        conn.close()
 
 @app.route('/other')
 def other():
-    page_data = db.session.query(Article, User).join(User, Article.username == User.username).filter(Article.genre == "Other").all()
-    return render_template('index.html', page_data=page_data)
+    sql = text('''
+        SELECT a.username, a.headline, a.context, u.profile, a.date
+        FROM articles a
+        JOIN users u ON a.username = u.username
+        WHERE a.genre = "other"
+    ''')
+    try:
+        conn = db.engine.connect()
+        result = conn.execute(sql)
+        page_data = result.fetchall()
+        
+        return render_template('index.html', page_data=page_data)
+    except Exception as e:
+        print(f"Exception: {e}")
+        return render_template('index.html', page_data=[])
+    finally:
+        conn.close()
 
 @app.route('/review', methods=['POST', 'GET'])
 def review():
