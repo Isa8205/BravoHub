@@ -1,6 +1,3 @@
-from app import User, db_path
-import os
-
 def check_username_availability(username):
     user = User.query.filter_by(username=username).first()
     return user is not None
