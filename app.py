@@ -11,7 +11,7 @@ app.secret_key = "fjsd8sf8s9fdsaHh"
 
 # Database configuration
 db_path = 'bravohub.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///' + os.path.join(app.instance_path, db_path)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -77,6 +77,7 @@ def homepage():
             SELECT a.username, a.headline, a.context, u.profile, a.date
             FROM articles a
             JOIN users u ON a.username = u.username
+            ORDER BY a.date DESC
         ''')
     try:
         conn = db.engine.connect()
@@ -98,6 +99,7 @@ def technology():
         FROM articles a
         JOIN users u ON a.username = u.username
         WHERE a.genre = "Technology"
+        ORDER BY a.date DESC
     ''')
     try:
         conn = db.engine.connect()
@@ -118,6 +120,7 @@ def sports():
         FROM articles a
         JOIN users u ON a.username = u.username
         WHERE a.genre = "Sports"
+        ORDER BY a.date DESC
     ''')
     try:
         conn = db.engine.connect()
@@ -138,6 +141,7 @@ def fashion():
         FROM articles a
         JOIN users u ON a.username = u.username
         WHERE a.genre = "Fashion"
+        ORDER BY a.date DESC
     ''')
     try:
         conn = db.engine.connect()
@@ -151,13 +155,14 @@ def fashion():
     finally:
         conn.close()
 
-@app.route('/politics')
+@app.route('/business')
 def politics():
     sql = text('''
         SELECT a.username, a.headline, a.context, u.profile, a.date
         FROM articles a
         JOIN users u ON a.username = u.username
-        WHERE a.genre = "Politics"
+        WHERE a.genre = "Bussiness"
+        ORDER BY a.date DESC
     ''')
     try:
         conn = db.engine.connect()
@@ -177,7 +182,8 @@ def other():
         SELECT a.username, a.headline, a.context, u.profile, a.date
         FROM articles a
         JOIN users u ON a.username = u.username
-        WHERE a.genre = "other"
+        WHERE a.genre = "Other"
+        ORDER BY a.date DESC
     ''')
     try:
         conn = db.engine.connect()

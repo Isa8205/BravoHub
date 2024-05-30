@@ -79,6 +79,8 @@ body {
     font-family: sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
+    padding: 0;
+    margin: 0;
 }
 
 a {
@@ -437,10 +439,25 @@ The styles for the carousel
 The styles for the forms 
 ------------------------------------------------------------------------------------------------------
 */
+form {
+    width: 100%;
+    padding: 10px;
+    margin-block: 10px;
+}
+
+form textarea {
+    display: block;
+    height: 100px;
+    width: 100%;
+    border-radius: 5px;
+    color: black;
+    padding-inline-start: 5px;
+    margin-block: 5px;
+}
 .form-input {
     display: block;
     height: 30px;
-    width: 95%;
+    width: 100%;
     border-radius: 5px;
     border: 1px solid #ffffff;
     color: black;
@@ -471,11 +488,11 @@ form a {
 
 .show-pass button {
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: 3px !important;
+    right: 16px !important;
     padding: 0;
-    background-color: transparent;
-    border: none;
+    background-color: transparent !important;
+    border: none !important;
     cursor: pointer;
 }
 
@@ -497,7 +514,6 @@ The styles for the footer of the main body
 */
 footer {
     background-color: var(--footer-color);
-    margin-inline: -7px;
     padding-top: 2px;
     border-radius: 20px 20px 0 0;
 }
@@ -510,8 +526,8 @@ footer h4 {
 
 footer textarea {
     display: block;
-    height: 50px;
-    width: 95%;
+    height: 70px;
+    width: 100%;
     border-radius: 5px;
     color: black;
     padding-inline-start: 5px;

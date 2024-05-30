@@ -20,7 +20,7 @@
             position: fixed;
             bottom: 10vh;
             right: 10vh;
-            background: #ef233c;
+            background: rgb(43,45,66);
             border-radius: 50%;
             padding: 15px;
         }
@@ -35,7 +35,7 @@
         <a href="/technology">Technology</a>
         <a href="/fashion">Fashion</a>
         <a href="/sports">sports</a>
-        <a href="/politics">Politics</a>
+        <a href="/business">Business</a>
         <a href="/other">Other</a>
         <!-- <button class="btn btn-purple a" onclick="modalfunction(true)">Modal</button>
         <button class="btn btn-red" onclick="themeFunction()">Theme</button> -->
@@ -101,8 +101,7 @@
                     <div class="details">
                         <p>{{ session['username'] }}</p>
                         <p>Member</p>
-                        <a href="/logout"><button class="btn btn-red">Log Out</button></a>
-                        <a href="/upload"><button class="btn btn-orange">Upload</button></a>
+                        <a href="/logout"><button class="btn btn-red" style="background-color: rgb(231, 12, 12);">Log Out</button></a>
                     </div>
                 
                 {% else %}
@@ -139,9 +138,13 @@
                 <div class="middle">
                     <article>
                         <header>
-                            <h3 style="font-family: ChakraPetch">{{ item[1] }}</h3>
+                            <h3 style="font-family: ChakraPetch; font-weight: bold;">{{ item[1] }}</h3>
                         </header>
-                        <p>{{ item[2] }}</p>
+                        {% if item[2] | length > 2000 %}
+                        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{ item[2][:2000] + "..." }}</p>
+                        {% else %}
+                        <p style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{ item[2] }}</p>
+                        {% endif %}                    
                     </article>
                 </div>
                 
@@ -171,7 +174,9 @@
 
     </div>
     <a href="#" class="back-to-top" onclick="scrollToTop()"><img src="../static/images/icons/arrow-up.png" alt="" height="30px"></a>
+    {% if session['username'] %}
     <a href="/upload"><span class="upload"><img src="../static/images/icons/add.png" alt="upload" height="40"></span></a>
+    {% endif %}
     <!-- End of the grid -->
 
     <!-- Start of the footer -->
