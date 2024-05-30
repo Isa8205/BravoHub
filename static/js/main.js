@@ -61,9 +61,9 @@ document.addEventListener("DOMContentLoaded", function() {
   // Loop through each date element
   dateElements.forEach(function(dateElement) {
       var dateValue = dateElement.textContent.trim();
-      var parts = dateValue.split('-');
+      var parts = dateValue.split(/[-\s]+/);
 
-      if (parts.length === 3) {
+      if (parts.length === 4) {
           var year = parts[0];
           var month = parseInt(parts[1]);
           var day = parts[2];
