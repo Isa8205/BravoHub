@@ -123,12 +123,15 @@ Forms
 // The function for showing the password
 function showpass() {
   var a = document.getElementById("pass");
+  var c = document.getElementById("pass2")
   var b = document.getElementById("show")
   if (a.type === "password") {
     a.type = "text";
+    c.type = "text"
     b.src = '../static/images/icons/hide.png'
   } else {
     a.type = "password";
+    c.type = "password"
     b.src = '../static/images/icons/show.png'
   }
 }
